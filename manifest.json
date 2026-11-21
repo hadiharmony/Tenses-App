@@ -1,0 +1,27 @@
+{
+  "name": "TenseMaster — Belajar 16 Tenses Bahasa Inggris",
+  "short_name": "TenseMaster",
+  "description": "Aplikasi belajar 16 tenses bahasa Inggris lengkap dengan penjelasan detail, diagram garis waktu, contoh kalimat beraudio, dan latihan soal interaktif tingkat Dasar, Menengah, dan Mahir.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#FAF8F3",
+  "theme_color": "#1E3A5F",
+  "lang": "id",
+  "categories": ["education", "books"],
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

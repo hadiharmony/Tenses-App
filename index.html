@@ -1,0 +1,2869 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#1E3A5F" />
+  <meta name="description" content="Aplikasi belajar 16 tenses bahasa Inggris lengkap dengan penjelasan detail, diagram garis waktu, contoh kalimat beraudio, dan latihan soal interaktif tingkat Dasar, Menengah, dan Mahir." />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="TenseMaster" />
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png" />
+  <link rel="apple-touch-icon" href="./icon-192.png" />
+  <title>TenseMaster — Belajar 16 Tenses Bahasa Inggris</title>
+  <style>
+    :root {
+      --bg: #FAF8F3;
+      --surface: #F3EFE6;
+      --card: #FFFFFF;
+      --surface-high: #EBE5D8;
+      --ink: #18202C;
+      --muted: #526071;
+      --outline: #D6CFC0;
+
+      --primary: #1E3A5F;
+      --on-primary: #FFFFFF;
+      --primary-container: #D6E4F7;
+      --on-primary-container: #0E213A;
+
+      --present: #0F766E;
+      --present-bg: #CCFBF1;
+      --past: #C2410C;
+      --past-bg: #FFEDD5;
+      --future: #1D4ED8;
+      --future-bg: #DBEAFE;
+      --past-future: #6D28D9;
+      --past-future-bg: #EDE9FE;
+
+      --beginner: #15803D;
+      --beginner-bg: #DCFCE7;
+      --intermediate: #B45309;
+      --intermediate-bg: #FEF3C7;
+      --advanced: #9F1239;
+      --advanced-bg: #FFE4E6;
+
+      --success: #15803D;
+      --success-bg: #DCFCE7;
+      --error: #BE123C;
+      --error-bg: #FFE4E6;
+      --gold: #F59E0B;
+      --gold-bg: rgba(245, 158, 11, 0.14);
+
+      --shadow-sm: 0 2px 10px rgba(24, 32, 44, 0.05);
+      --shadow-md: 0 8px 24px rgba(24, 32, 44, 0.08);
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-lg: 22px;
+      --font-display: ui-rounded, 'SF Pro Rounded', 'Segoe UI', system-ui, -apple-system, sans-serif;
+      --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: ui-monospace, 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
+      --nav-height: 70px;
+      --rail-width: 228px;
+    }
+
+    [data-theme="dark"] {
+      --bg: #11161F;
+      --surface: #18202B;
+      --card: #1E2836;
+      --surface-high: #283446;
+      --ink: #F1F5F9;
+      --muted: #94A3B8;
+      --outline: #334155;
+
+      --primary: #93C5FD;
+      --on-primary: #0C223D;
+      --primary-container: #1E3A5F;
+      --on-primary-container: #DBEAFE;
+
+      --present: #5EEAD4;
+      --present-bg: #134E4A;
+      --past: #FB923C;
+      --past-bg: #7C2D12;
+      --future: #60A5FA;
+      --future-bg: #1E3A8A;
+      --past-future: #A78BFA;
+      --past-future-bg: #4C1D95;
+
+      --beginner: #4ADE80;
+      --beginner-bg: #14532D;
+      --intermediate: #FBBF24;
+      --intermediate-bg: #78350F;
+      --advanced: #FB7185;
+      --advanced-bg: #881337;
+
+      --success: #4ADE80;
+      --success-bg: #14532D;
+      --error: #FB7185;
+      --error-bg: #881337;
+      --gold: #FBBF24;
+      --gold-bg: rgba(251, 191, 36, 0.16);
+
+      --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.25);
+      --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-body);
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    button, input {
+      font-family: inherit;
+      color: inherit;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+
+    .app-shell {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Desktop Navigation Rail */
+    .side-rail {
+      display: none;
+      width: var(--rail-width);
+      flex-shrink: 0;
+      background: var(--card);
+      border-right: 1px solid var(--outline);
+      padding: 20px 14px;
+      position: fixed;
+      inset: 0 auto 0 0;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 30;
+    }
+
+    .rail-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 10px 18px;
+      border-bottom: 1px solid var(--outline);
+      margin-bottom: 8px;
+    }
+
+    .rail-brand img {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+    }
+
+    .rail-brand h1 {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .rail-brand span {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--muted);
+      transition: background 0.18s, color 0.18s;
+      min-height: 48px;
+      width: 100%;
+      text-align: left;
+    }
+
+    .nav-btn:hover {
+      background: var(--surface);
+      color: var(--ink);
+    }
+
+    .nav-btn.active {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+    }
+
+    .rail-footer {
+      margin-top: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-top: 12px;
+      border-top: 1px solid var(--outline);
+    }
+
+    /* Main Content Area */
+    .main-area {
+      flex: 1;
+      width: 100%;
+      padding-bottom: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px) + 16px);
+    }
+
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: color-mix(in srgb, var(--bg) 90%, transparent);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--outline);
+      padding: calc(10px + env(safe-area-inset-top, 0px)) 16px 10px;
+    }
+
+    .top-bar-inner {
+      max-width: 780px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .brand-mini {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-mini img {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+    }
+
+    .brand-mini-title {
+      font-family: var(--font-display);
+      font-size: 1.08rem;
+      font-weight: 800;
+      margin: 0;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .icon-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--card);
+      border: 1px solid var(--outline);
+      color: var(--ink);
+      transition: transform 0.12s, background 0.15s;
+      flex-shrink: 0;
+    }
+
+    .icon-btn:active {
+      transform: scale(0.95);
+    }
+
+    .install-pill {
+      display: none;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--primary);
+      color: var(--on-primary);
+      font-size: 0.8rem;
+      font-weight: 700;
+      min-height: 38px;
+    }
+
+    .install-pill.visible {
+      display: inline-flex;
+    }
+
+    .container {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* Mobile Bottom Navigation */
+    .bottom-nav {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 30;
+      background: var(--card);
+      border-top: 1px solid var(--outline);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      padding: 6px 8px calc(8px + env(safe-area-inset-bottom, 0px));
+    }
+
+    .bottom-nav.hidden {
+      display: none;
+    }
+
+    .bottom-tab {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      padding: 6px 4px;
+      min-height: 52px;
+      border-radius: 14px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .bottom-tab .tab-pill {
+      padding: 4px 16px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.18s;
+    }
+
+    .bottom-tab.active {
+      color: var(--ink);
+    }
+
+    .bottom-tab.active .tab-pill {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+    }
+
+    @media (min-width: 760px) {
+      .side-rail {
+        display: flex;
+      }
+      .main-area {
+        margin-left: var(--rail-width);
+        padding-bottom: 32px;
+      }
+      .bottom-nav {
+        display: none !important;
+      }
+      .brand-mini {
+        display: none;
+      }
+    }
+
+    /* Editorial Cards & Components */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--outline);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .hero-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 26px;
+      padding: 24px 22px;
+      background: linear-gradient(130deg, #132843 0%, #1E3A5F 56%, #0F766E 100%);
+      color: #FFFFFF;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: var(--shadow-md);
+    }
+
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      right: -32px;
+      top: -32px;
+      width: 210px;
+      height: 210px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.34) 0%, rgba(245, 158, 11, 0) 70%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      background: rgba(245, 158, 11, 0.2);
+      border: 1px solid rgba(253, 230, 138, 0.4);
+      color: #FDE68A;
+      font-size: 0.76rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      line-height: 1.25;
+      margin: 0 0 8px;
+      max-width: 520px;
+    }
+
+    .hero-desc {
+      margin: 0;
+      font-size: 0.88rem;
+      color: rgba(255, 255, 255, 0.86);
+      max-width: 500px;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 1.18rem;
+      font-weight: 700;
+      margin: 0 0 4px;
+    }
+
+    .section-sub {
+      margin: 0;
+      font-size: 0.84rem;
+      color: var(--muted);
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .row-between {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 10px;
+      background: var(--surface-high);
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 12px 0;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--present), var(--future));
+      border-radius: 999px;
+      transition: width 0.35s ease;
+    }
+
+    .stat-pill {
+      flex: 1;
+      background: var(--surface);
+      border-radius: 14px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .stat-pill small {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .stat-pill strong {
+      font-size: 0.92rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 9px;
+      border-radius: 8px;
+      font-size: 0.73rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .badge-present { color: var(--present); background: var(--present-bg); }
+    .badge-past { color: var(--past); background: var(--past-bg); }
+    .badge-future { color: var(--future); background: var(--future-bg); }
+    .badge-past_future { color: var(--past-future); background: var(--past-future-bg); }
+
+    .badge-beginner { color: var(--beginner); background: var(--beginner-bg); }
+    .badge-intermediate { color: var(--intermediate); background: var(--intermediate-bg); }
+    .badge-advanced { color: var(--advanced); background: var(--advanced-bg); }
+
+    .badge-neutral { color: var(--muted); background: var(--surface); }
+
+    .formula-box {
+      background: var(--surface);
+      border: 1px solid var(--outline);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-family: var(--font-mono);
+      font-size: 0.84rem;
+      font-weight: 600;
+      word-break: break-word;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 46px;
+      padding: 10px 16px;
+      border-radius: 14px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      transition: opacity 0.15s, transform 0.12s;
+    }
+
+    .btn:active { transform: scale(0.98); }
+    .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+    .btn-primary { background: var(--primary); color: var(--on-primary); }
+    .btn-tonal { background: var(--primary-container); color: var(--on-primary-container); }
+    .btn-gold { background: var(--gold); color: #1A1202; }
+    .btn-success { background: var(--success); color: #FFFFFF; }
+    .btn-outline { background: transparent; border: 1px solid var(--outline); color: var(--ink); }
+    .btn-full { width: 100%; }
+
+    .bento-card {
+      background: var(--card);
+      border: 1px solid var(--outline);
+      border-radius: 20px;
+      padding: 14px;
+      text-align: left;
+      width: 100%;
+      transition: transform 0.15s, border-color 0.15s;
+    }
+
+    .bento-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-1px);
+    }
+
+    .tense-card {
+      background: var(--card);
+      border: 1px solid var(--outline);
+      border-radius: 20px;
+      padding: 16px;
+      cursor: pointer;
+      transition: border-color 0.16s, transform 0.14s;
+    }
+
+    .tense-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-1px);
+    }
+
+    .num-pill {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 0.92rem;
+      flex-shrink: 0;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 13px 16px;
+      border-radius: 16px;
+      border: 1px solid var(--outline);
+      background: var(--card);
+      font-size: 0.94rem;
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 16%, transparent);
+    }
+
+    .chip-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scrollbar-width: none;
+    }
+    .chip-scroll::-webkit-scrollbar { display: none; }
+
+    .chip {
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--outline);
+      background: var(--card);
+      font-size: 0.82rem;
+      font-weight: 600;
+      white-space: nowrap;
+      min-height: 38px;
+      color: var(--muted);
+    }
+
+    .chip.active {
+      background: var(--primary);
+      color: var(--on-primary);
+      border-color: var(--primary);
+    }
+
+    .tabs-bar {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      background: var(--surface);
+      padding: 5px;
+      border-radius: 16px;
+      scrollbar-width: none;
+    }
+    .tabs-bar::-webkit-scrollbar { display: none; }
+
+    .seg-tab {
+      flex: 1;
+      min-width: max-content;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: var(--muted);
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .seg-tab.active {
+      background: var(--card);
+      color: var(--ink);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .timeline-box {
+      background: var(--card);
+      border: 1px solid var(--outline);
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    .timeline-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .speak-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      flex-shrink: 0;
+    }
+
+    .speak-btn:active { transform: scale(0.92); }
+
+    .highlight-verb {
+      padding: 1px 6px;
+      border-radius: 6px;
+      font-weight: 800;
+    }
+
+    .signals-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .signal-chip {
+      background: var(--card);
+      border: 1px solid var(--outline);
+      border-radius: 12px;
+      padding: 8px 12px;
+    }
+
+    .signal-chip strong {
+      display: block;
+      font-size: 0.85rem;
+    }
+
+    .signal-chip span {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .mistake-bad {
+      background: var(--error-bg);
+      color: var(--ink);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .mistake-good {
+      background: var(--success-bg);
+      color: var(--ink);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .tip-card {
+      background: var(--gold-bg);
+      border: 1px solid color-mix(in srgb, var(--gold) 50%, transparent);
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    /* Quiz UI */
+    .quiz-option {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px;
+      border-radius: 16px;
+      background: var(--card);
+      border: 1.5px solid var(--outline);
+      text-align: left;
+      font-size: 0.96rem;
+      font-weight: 600;
+      transition: border-color 0.14s, background 0.14s;
+    }
+
+    .quiz-option.selected {
+      background: var(--primary-container);
+      border-color: var(--primary);
+    }
+
+    .quiz-option.correct {
+      background: var(--success-bg);
+      border-color: var(--success);
+    }
+
+    .quiz-option.wrong {
+      background: var(--error-bg);
+      border-color: var(--error);
+    }
+
+    .opt-letter {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--surface);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.82rem;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .spot-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .spot-chip {
+      padding: 12px 16px;
+      border-radius: 14px;
+      background: var(--card);
+      border: 1.5px solid var(--outline);
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+
+    .spot-chip.selected { background: var(--primary-container); border-color: var(--primary); }
+    .spot-chip.correct { background: var(--success-bg); border-color: var(--success); }
+    .spot-chip.wrong { background: var(--error-bg); border-color: var(--error); }
+
+    .builder-zone {
+      min-height: 82px;
+      border-radius: 18px;
+      border: 1.5px dashed var(--outline);
+      background: var(--surface);
+      padding: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .builder-zone.correct { border-style: solid; border-color: var(--success); background: var(--success-bg); }
+    .builder-zone.wrong { border-style: solid; border-color: var(--error); background: var(--error-bg); }
+
+    .word-token {
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      border: 1px solid var(--outline);
+      background: var(--card);
+    }
+
+    .word-token.placed {
+      background: var(--primary);
+      color: var(--on-primary);
+      border-color: var(--primary);
+    }
+
+    .feedback-card {
+      border-radius: 20px;
+      padding: 16px;
+      border: 1.5px solid;
+    }
+
+    .feedback-card.ok {
+      background: var(--success-bg);
+      border-color: var(--success);
+    }
+
+    .feedback-card.bad {
+      background: var(--error-bg);
+      border-color: var(--error);
+    }
+
+    .drill-scroll {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding: 4px 0 8px;
+    }
+
+    .drill-card {
+      min-width: 210px;
+      max-width: 210px;
+      background: var(--card);
+      border: 1px solid var(--outline);
+      border-radius: 18px;
+      padding: 14px;
+      text-align: left;
+      flex-shrink: 0;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--muted);
+    }
+
+    .offline-dot {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: var(--success-bg);
+      color: var(--success);
+    }
+
+    .offline-dot.offline {
+      background: var(--intermediate-bg);
+      color: var(--intermediate);
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Desktop Sidebar Rail -->
+    <aside class="side-rail" aria-label="Navigasi Utama">
+      <div class="rail-brand">
+        <img src="./icon-192.png" alt="Logo TenseMaster" />
+        <div>
+          <h1>TenseMaster</h1>
+          <span>16 Tenses Bahasa Inggris</span>
+        </div>
+      </div>
+      <button class="nav-btn active" data-route="home" onclick="navigateTab('home')">🏠 Beranda</button>
+      <button class="nav-btn" data-route="learn" onclick="navigateTab('learn')">📖 Materi 16 Tenses</button>
+      <button class="nav-btn" data-route="practice" onclick="navigateTab('practice')">🎯 Latihan Soal</button>
+      <button class="nav-btn" data-route="reference" onclick="navigateTab('reference')">🗺️ Peta &amp; Perbandingan</button>
+      <div class="rail-footer">
+        <button class="btn btn-tonal btn-full" id="railInstallBtn" style="display:none" onclick="triggerInstall()">⬇️ Pasang Aplikasi</button>
+        <button class="btn btn-outline btn-full" onclick="toggleTheme()" id="railThemeBtn">🌙 Mode Gelap</button>
+      </div>
+    </aside>
+
+    <!-- Main Viewport -->
+    <div class="main-area">
+      <header class="top-bar">
+        <div class="top-bar-inner">
+          <div class="brand-mini" id="topBarLeft">
+            <img src="./icon-192.png" alt="Logo TenseMaster" />
+            <div>
+              <p class="brand-mini-title">TenseMaster</p>
+            </div>
+          </div>
+          <div id="topBarCustomTitle" style="display:none;align-items:center;gap:10px;min-width:0;flex:1;"></div>
+          <div class="top-actions">
+            <span class="offline-dot" id="networkBadge">Siap Offline</span>
+            <button class="install-pill" id="topInstallBtn" onclick="triggerInstall()">⬇️ Pasang</button>
+            <button class="icon-btn" onclick="toggleTheme()" id="themeToggleBtn" aria-label="Ubah tema terang atau gelap" title="Ubah Tema">🌙</button>
+          </div>
+        </div>
+      </header>
+
+      <main class="container" id="appContent"></main>
+    </div>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="bottom-nav" id="bottomNav" aria-label="Navigasi Bawah">
+      <button class="bottom-tab active" data-route="home" onclick="navigateTab('home')">
+        <span class="tab-pill">🏠</span>
+        <span>Beranda</span>
+      </button>
+      <button class="bottom-tab" data-route="learn" onclick="navigateTab('learn')">
+        <span class="tab-pill">📖</span>
+        <span>Materi</span>
+      </button>
+      <button class="bottom-tab" data-route="practice" onclick="navigateTab('practice')">
+        <span class="tab-pill">🎯</span>
+        <span>Latihan</span>
+      </button>
+      <button class="bottom-tab" data-route="reference" onclick="navigateTab('reference')">
+        <span class="tab-pill">🗺️</span>
+        <span>Peta</span>
+      </button>
+    </nav>
+  </div>
+
+  <script>
+    // =========================================================================
+    // 1. CURRICULUM DATA — ALL 16 ENGLISH TENSES + COMPARISONS + 48 QUESTIONS
+    // =========================================================================
+    const TIME_CATEGORIES = [
+      { id: 'present', label: 'Present', sub: 'Masa Kini', icon: '⏱️' },
+      { id: 'past', label: 'Past', sub: 'Masa Lampau', icon: '🕰️' },
+      { id: 'future', label: 'Future', sub: 'Masa Depan', icon: '🚀' },
+      { id: 'past_future', label: 'Past Future', sub: 'Pengandaian & Rencana Lampau', icon: '🧭' }
+    ];
+
+    const LEVELS = [
+      {
+        id: 'beginner',
+        label: 'Dasar',
+        cefr: 'A1–A2',
+        subtitle: 'Fondasi Komunikasi Harian',
+        desc: 'Kuasai 5 tenses paling sering dipakai dalam percakapan sehari-hari: Simple Present, Present Continuous, Simple Past, Past Continuous, dan Simple Future.'
+      },
+      {
+        id: 'intermediate',
+        label: 'Menengah',
+        cefr: 'B1–B2',
+        subtitle: 'Hubungan Waktu & Nuansa',
+        desc: 'Pahami keterkaitan masa lalu dan masa kini, durasi kejadian, serta kalimat bertingkat: Present Perfect, Past Perfect, Future Continuous, dan Past Future.'
+      },
+      {
+        id: 'advanced',
+        label: 'Mahir',
+        cefr: 'C1–C2',
+        subtitle: 'Presisi Akademik & Pengandaian',
+        desc: 'Taklukkan struktur kompleks untuk penulisan profesional, conditional tipe 3, dan pelaporan kalimat: Perfect Continuous lanjutan serta seri Past Future Perfect.'
+      }
+    ];
+
+    const TENSES = [
+      {
+        id: 'simple_present', number: 1, name: 'Simple Present Tense', idTitle: 'Waktu Sekarang Sederhana',
+        category: 'present', aspect: 'Simple', level: 'beginner',
+        summary: 'Digunakan untuk fakta umum, kebiasaan rutin, jadwal tetap, dan keadaan yang berlaku permanen.',
+        intro: 'Simple Present Tense adalah fondasi utama bahasa Inggris. Tense ini tidak dipakai untuk kegiatan yang sedang berlangsung tepat di detik ini, melainkan untuk kebiasaan berulang, kebenaran ilmiah, perasaan permanen, serta jadwal transportasi atau acara resmi.',
+        timelineCaption: 'Kejadian berulang secara rutin dari masa lalu, kini, hingga masa depan.',
+        usages: [
+          { title: 'Kebiasaan & Rutinitas Harian', desc: 'Menyatakan aktivitas yang dilakukan secara teratur atau berulang kali.', ex: 'She drinks green tea every morning.' },
+          { title: 'Fakta Umum & Kebenaran Ilmiah', desc: 'Hal yang selalu benar secara universal dan tidak berubah.', ex: 'Water boils at 100 degrees Celsius.' },
+          { title: 'Jadwal Tetap (Timetables)', desc: 'Jadwal kereta, penerbangan, kelas, atau jam buka toko meski merujuk waktu mendatang.', ex: 'The train departs at 7:15 AM.' },
+          { title: 'Keadaan & Kata Kerja Statis', desc: 'Menyatakan kepemilikan, opini, atau perasaan (know, love, believe, belong).', ex: 'I understand your explanation clearly.' }
+        ],
+        formula: {
+          vp: 'S + V1 (s/es) + O/C', vn: 'S + do/does + not + V1 + O/C', vi: 'Do/Does + S + V1 + O/C ?',
+          np: 'S + am/is/are + Ana (Adj/Noun/Adv)', nn: 'S + am/is/are + not + Ana', ni: 'Am/Is/Are + S + Ana ?',
+          rules: [
+            'Subjek I, You, We, They memakai V1 murni dan auxiliary "do" (don\'t).',
+            'Subjek He, She, It (orang ketiga tunggal) menambah akhiran -s/-es pada V1 dan memakai "does" (doesn\'t).',
+            'Akhiran -es dipakai untuk kata kerja berakhiran -ch, -sh, -s, -x, -o (watch → watches, go → goes).',
+            'Konsonan + y berubah menjadi -ies (study → studies), sedangkan vokal + y cukup +s (play → plays).',
+            'Pada kalimat negatif dan tanya setelah does/doesn\'t, kata kerja WAJIB kembali ke V1 dasar tanpa -s/-es.'
+          ]
+        },
+        signals: [
+          ['every day / week', 'setiap hari / minggu'], ['always', 'selalu'], ['usually', 'biasanya'],
+          ['often', 'sering'], ['sometimes', 'kadang-kadang'], ['seldom / rarely', 'jarang'], ['never', 'tidak pernah']
+        ],
+        examples: [
+          { pol: '+', en: 'My sister practices English speaking every evening.', hl: 'practices', id: 'Kakak perempuanku berlatih berbicara bahasa Inggris setiap sore.', tag: 'Kebiasaan' },
+          { pol: '+', en: 'The Earth revolves around the Sun.', hl: 'revolves', id: 'Bumi berevolusi mengelilingi Matahari.', tag: 'Fakta Ilmiah' },
+          { pol: '-', en: 'He does not eat spicy food for breakfast.', hl: 'does not eat', id: 'Dia tidak makan makanan pedas untuk sarapan.', tag: 'Negatif Verbal' },
+          { pol: '?', en: 'Does the library open on Sunday mornings?', hl: 'Does', id: 'Apakah perpustakaan buka pada Minggu pagi?', tag: 'Jadwal Tetap' },
+          { pol: '+', en: 'They are very enthusiastic about the new project.', hl: 'are', id: 'Mereka sangat antusias terhadap proyek baru tersebut.', tag: 'Nominal' }
+        ],
+        mistakes: [
+          { wrong: "She don't likes coffee.", right: "She doesn't like coffee.", reason: 'Subjek "She" memakai "doesn\'t", dan setelah "doesn\'t" kata kerja kembali ke bentuk dasar "like" tanpa -s.' },
+          { wrong: 'I am go to school by bus every day.', right: 'I go to school by bus every day.', reason: 'Jangan menggabungkan to be (am/is/are) dengan kata kerja V1 biasa dalam kalimat aktif Simple Present.' },
+          { wrong: 'Does he works in Jakarta?', right: 'Does he work in Jakarta?', reason: 'Karena "Does" sudah mewakili penanda tunggal, kata kerja "work" tidak boleh diberi akhiran -s lagi.' }
+        ],
+        tip: 'Ingat rumus emas: Begitu "does" atau "doesn\'t" muncul di kalimat, akhiran -s/-es pada kata kerja langsung hilang!'
+      },
+      {
+        id: 'present_continuous', number: 2, name: 'Present Continuous Tense', idTitle: 'Waktu Sekarang Sedang Berlangsung',
+        category: 'present', aspect: 'Continuous', level: 'beginner',
+        summary: 'Menyatakan aktivitas yang sedang terjadi tepat saat berbicara, situasi sementara, atau rencana dekat yang sudah pasti.',
+        intro: 'Present Continuous Tense (juga disebut Present Progressive) menekankan proses atau tindakan yang masih berjalan sekarang. Selain momen saat ini, tense ini juga lazim digunakan untuk tren yang sedang berubah dan agenda pribadi yang sudah dijadwalkan dalam waktu dekat.',
+        timelineCaption: 'Aktivitas sedang berlangsung aktif melintasi titik "Sekarang" (Now).',
+        usages: [
+          { title: 'Sedang Terjadi Saat Berbicara', desc: 'Aksi nyata yang terlihat atau sedang berlangsung tepat di detik ini.', ex: 'Listen! Someone is knocking on the door.' },
+          { title: 'Situasi Sementara (Temporary)', desc: 'Kegiatan yang berlangsung di sekitar periode sekarang meski belum tentu tepat di detik berbicara.', ex: "I am staying at my cousin's house this month." },
+          { title: 'Rencana Dekat yang Sudah Pasti', desc: 'Agenda pribadi yang sudah dikonfirmasi waktunya (sudah beli tiket atau buat janji).', ex: 'We are meeting the client tomorrow at 10 AM.' },
+          { title: 'Tren atau Perubahan Berkelanjutan', desc: 'Kondisi yang perlahan meningkat, menurun, atau berubah.', ex: 'Electric cars are becoming more affordable.' }
+        ],
+        formula: {
+          vp: 'S + am/is/are + V-ing + O/C', vn: 'S + am/is/are + not + V-ing + O/C', vi: 'Am/Is/Are + S + V-ing + O/C ?',
+          np: 'S + am/is/are + being + Adj/Noun (sikap sementara)', nn: 'S + am/is/are + not + being + Adj/Noun', ni: 'Am/Is/Are + S + being + Adj/Noun ?',
+          rules: [
+            'I → am | He, She, It → is | You, We, They → are.',
+            'Kata kerja berakhiran -e bisu: buang -e lalu tambah -ing (make → making, write → writing).',
+            'Pola 1 suku kata konsonan-vokal-konsonan: gandakan huruf akhir (run → running, sit → sitting).',
+            'Kata kerja statis (know, want, love, understand, own) umumnya TIDAK memakai bentuk -ing.'
+          ]
+        },
+        signals: [
+          ['now / right now', 'sekarang / saat ini juga'], ['at the moment', 'pada saat ini'], ['currently', 'saat ini'],
+          ['Look! / Listen!', 'Lihat! / Dengarkan!'], ['today / this week', 'hari ini / minggu ini'], ['still', 'masih']
+        ],
+        examples: [
+          { pol: '+', en: 'The students are discussing the grammar rules right now.', hl: 'are discussing', id: 'Para siswa sedang mendiskusikan aturan tata bahasa sekarang.', tag: 'Saat Ini' },
+          { pol: '-', en: 'She is not watching TV; she is preparing her presentation.', hl: 'is not watching', id: 'Dia tidak sedang menonton TV; dia sedang menyiapkan presentasinya.', tag: 'Kontras' },
+          { pol: '?', en: 'Are you flying to Bali next Friday?', hl: 'Are', id: 'Apakah kamu jadi terbang ke Bali Jumat depan?', tag: 'Rencana Pasti' },
+          { pol: '+', en: 'My English vocabulary is improving rapidly this semester.', hl: 'is improving', id: 'Kosakata bahasa Inggrisku berkembang pesat semester ini.', tag: 'Tren' }
+        ],
+        mistakes: [
+          { wrong: 'I am knowing the answer.', right: 'I know the answer.', reason: '"Know" adalah stative verb (keadaan pikiran), sehingga tidak digunakan dalam bentuk Continuous (-ing).' },
+          { wrong: 'They playing football in the yard now.', right: 'They are playing football in the yard now.', reason: 'Kata kerja V-ing WAJIB didampingi auxiliary to be (am/is/are) agar menjadi predikat yang sah.' }
+        ],
+        tip: 'Jika kamu melihat seruan seperti "Look!" atau "Be quiet!" di awal kalimat soal, hampir pasti jawabannya memakai Present Continuous!'
+      },
+      {
+        id: 'present_perfect', number: 3, name: 'Present Perfect Tense', idTitle: 'Waktu Sekarang Selesai (Berdampak Kini)',
+        category: 'present', aspect: 'Perfect', level: 'intermediate',
+        summary: 'Menghubungkan masa lalu dengan masa kini: pengalaman hidup, aksi baru saja selesai, atau kejadian lampau yang dampaknya masih terasa sekarang.',
+        intro: 'Present Perfect Tense tidak peduli kapan tepatnya kejadian terjadi di masa lalu—yang penting adalah hasil, pengalaman, atau keterhubungannya dengan kondisi SAAT INI.',
+        timelineCaption: 'Kejadian di masa lalu (waktu tak spesifik) yang jembatan hasilnya terhubung ke "Sekarang".',
+        usages: [
+          { title: 'Pengalaman Hidup (Ever / Never)', desc: 'Sesuatu yang pernah atau belum pernah dialami hingga sekarang tanpa menyebut waktu spesifik.', ex: 'I have visited Yogyakarta three times.' },
+          { title: 'Kejadian Lampau dengan Dampak Sekarang', desc: 'Aksi sudah selesai namun efek atau hasilnya terlihat jelas saat ini.', ex: "She has lost her keys, so she can't enter the house." },
+          { title: 'Baru Saja Terjadi (Just / Already / Yet)', desc: 'Penyelesaian tugas atau peristiwa yang sangat dekat dengan waktu sekarang.', ex: 'We have just finished the weekly report.' },
+          { title: 'Dimulai di Masa Lalu & Masih Berlanjut', desc: 'Khususnya dengan stative verb (know, live, be) menggunakan "for" atau "since".', ex: 'They have lived in Bandung since 2018.' }
+        ],
+        formula: {
+          vp: 'S + have/has + V3 (Past Participle) + O/C', vn: 'S + have/has + not + V3 + O/C', vi: 'Have/Has + S + V3 + O/C ?',
+          np: 'S + have/has + been + Adj/Noun/Adv', nn: 'S + have/has + not + been + Adj/Noun/Adv', ni: 'Have/Has + S + been + Adj/Noun/Adv ?',
+          rules: [
+            'I, You, We, They memakai "have" (haven\'t). He, She, It memakai "has" (hasn\'t).',
+            'Selalu gunakan Verb 3 (Past Participle): eat → eaten, go → gone, write → written.',
+            'Gunakan "for" untuk durasi (for 5 years) dan "since" untuk titik awal (since Monday, since 2020).',
+            'Gunakan "yet" di akhir kalimat negatif dan kalimat tanya.'
+          ]
+        },
+        signals: [
+          ['already', 'sudah'], ['just', 'baru saja'], ['yet', 'belum / sudahkah'], ['ever / never', 'pernah / tidak pernah'],
+          ['since ...', 'sejak ...'], ['for ...', 'selama ...'], ['so far', 'sejauh ini']
+        ],
+        examples: [
+          { pol: '+', en: 'I have already read that grammar book twice.', hl: 'have already read', id: 'Aku sudah membaca buku tata bahasa itu dua kali.', tag: 'Pengalaman' },
+          { pol: '-', en: 'He has not submitted his assignment yet.', hl: 'has not submitted', id: 'Dia belum mengumpulkan tugasnya.', tag: 'Belum Selesai' },
+          { pol: '?', en: 'Have you ever tried traditional Indonesian rendang?', hl: 'Have', id: 'Pernahkah kamu mencoba rendang khas Indonesia?', tag: 'Pengalaman' },
+          { pol: '+', en: 'Nadia has been a software engineer for six years.', hl: 'has been', id: 'Nadia telah menjadi insinyur perangkat lunak selama enam tahun.', tag: 'Nominal' }
+        ],
+        mistakes: [
+          { wrong: 'I have met him yesterday.', right: 'I met him yesterday.', reason: 'Jika ada waktu lampau spesifik yang sudah selesai (yesterday, last week, in 2021), WAJIB pakai Simple Past.' },
+          { wrong: 'She has went to the office.', right: 'She has gone to the office.', reason: '"Went" adalah V2. Present Perfect harus memakai V3 yaitu "gone".' }
+        ],
+        tip: 'Bedakan "has gone to" (masih di sana/dalam perjalanan) dengan "has been to" (pernah pergi dan sekarang sudah pulang).'
+      },
+      {
+        id: 'present_perfect_continuous', number: 4, name: 'Present Perfect Continuous', idTitle: 'Waktu Sekarang Selesai Sedang Berlangsung',
+        category: 'present', aspect: 'Perfect Continuous', level: 'intermediate',
+        summary: 'Menekankan lamanya durasi aktivitas yang dimulai di masa lalu dan masih terus berlangsung hingga sekarang (atau baru saja berhenti dengan bukti fisik).',
+        intro: 'Present Perfect Continuous fokus pada PROSES dan DURASI, bukan sekadar hasil akhirnya. Tense ini menjawab pertanyaan "How long...?" (Sudah berapa lama?) untuk aktivitas dinamis.',
+        timelineCaption: 'Gelombang durasi berkelanjutan dimulai di masa lalu dan masih berjalan hingga titik "Sekarang".',
+        usages: [
+          { title: 'Durasi Aktivitas yang Masih Berlanjut', desc: 'Menekankan berapa lama seseorang telah melakukan sesuatu sampai detik ini.', ex: 'I have been studying English for two hours.' },
+          { title: 'Baru Saja Berhenti dengan Bukti Terlihat', desc: 'Aktivitas baru selesai beberapa saat lalu dan efek fisiknya tampak jelas sekarang.', ex: 'Your eyes are red. Have you been crying?' },
+          { title: 'Aktivitas Berulang dalam Periode Terkini', desc: 'Kebiasaan sementara yang sering dilakukan belakangan ini.', ex: 'She has been going to the gym every morning lately.' }
+        ],
+        formula: {
+          vp: 'S + have/has + been + V-ing + O/C', vn: 'S + have/has + not + been + V-ing + O/C', vi: 'Have/Has + S + been + V-ing + O/C ?',
+          np: 'Tidak lazim nominal (gunakan Present Perfect: S + have/has + been + Ana)', nn: 'Gunakan Present Perfect: S + have/has + not + been + Ana', ni: 'Gunakan Present Perfect: Have/Has + S + been + Ana ?',
+          rules: [
+            'I, You, We, They → have been + V-ing. He, She, It → has been + V-ing.',
+            'Kata kerja statis (know, love, own) tetap memakai Present Perfect biasa (have known).',
+            'Sangat sering berpasangan dengan "for", "since", "all day", dan "How long".'
+          ]
+        },
+        signals: [
+          ['for two hours', 'selama dua jam'], ['since morning', 'sejak pagi'], ['all day / all week', 'seharian / sepanjang minggu'],
+          ['how long...?', 'berapa lama...?'], ['lately / recently', 'belakangan ini']
+        ],
+        examples: [
+          { pol: '+', en: "We have been waiting for the bus since 8 o'clock.", hl: 'have been waiting', id: 'Kami sudah menunggu bus sejak pukul 8 (dan masih menunggu).', tag: 'Durasi Aktif' },
+          { pol: '+', en: 'It has been raining heavily all afternoon.', hl: 'has been raining', id: 'Hujan turun deras sepanjang sore ini.', tag: 'Berkelanjutan' },
+          { pol: '-', en: 'Raka has not been sleeping well lately because of stress.', hl: 'has not been sleeping', id: 'Raka tidak tidur nyenyak belakangan ini karena stres.', tag: 'Negatif' },
+          { pol: '?', en: 'How long have you been learning to play the guitar?', hl: 'have you been learning', id: 'Sudah berapa lama kamu belajar bermain gitar?', tag: 'Tanya Durasi' }
+        ],
+        mistakes: [
+          { wrong: 'I am working here since 2021.', right: 'I have been working here since 2021.', reason: 'Jika ada durasi dari masa lalu hingga kini (since/for), gunakan Present Perfect Continuous.' },
+          { wrong: 'She has been knowing me for ten years.', right: 'She has known me for ten years.', reason: '"Know" adalah kata kerja statis yang tidak bisa diberi bentuk -ing.' }
+        ],
+        tip: 'Present Perfect menjawab "Berapa banyak?" (I have written 3 pages), sedangkan Present Perfect Continuous menjawab "Berapa lama?" (I have been writing for 2 hours).'
+      },
+      {
+        id: 'simple_past', number: 5, name: 'Simple Past Tense', idTitle: 'Waktu Lampau Sederhana',
+        category: 'past', aspect: 'Simple', level: 'beginner',
+        summary: 'Menyatakan kejadian yang dimulai dan benar-benar selesai pada waktu spesifik di masa lampau.',
+        intro: 'Simple Past Tense adalah tense paling penting untuk bercerita tentang masa lalu, pengalaman spesifik, sejarah, maupun rangkaian kejadian yang berurutan. Ciri utamanya adalah waktu kejadiannya sudah berlalu dan selesai.',
+        timelineCaption: 'Satu titik kejadian spesifik yang selesai tuntas di masa lalu sebelum "Sekarang".',
+        usages: [
+          { title: 'Kejadian Selesai di Waktu Lampau Spesifik', desc: 'Peristiwa yang sudah terjadi dan selesai pada titik waktu tertentu di masa lalu.', ex: 'We graduated from university in 2022.' },
+          { title: 'Rangkaian Peristiwa Berurutan', desc: 'Menceritakan urutan aksi satu per satu dalam narasi atau kisah.', ex: 'She opened the letter, read it, and smiled.' },
+          { title: 'Kebiasaan di Masa Lalu', desc: 'Rutinitas masa kecil atau kebiasaan lama yang kini tidak lagi dilakukan.', ex: 'When I was a child, I walked to school every day.' }
+        ],
+        formula: {
+          vp: 'S + V2 (Past Simple) + O/C', vn: "S + did + not (didn't) + V1 + O/C", vi: 'Did + S + V1 + O/C ?',
+          np: 'S + was/were + Adj/Noun/Adv', nn: 'S + was/were + not + Adj/Noun/Adv', ni: 'Was/Were + S + Adj/Noun/Adv ?',
+          rules: [
+            'Semua subjek memakai V2 yang sama pada kalimat positif verbal dan "did" pada kalimat negatif/tanya.',
+            'Untuk nominal: I, He, She, It memakai "was"; You, We, They memakai "were".',
+            'Regular verbs ditambah -ed (work → worked), sedangkan irregular verbs memiliki bentuk khusus (go → went, buy → bought).',
+            'Setelah "did" atau "didn\'t", kata kerja WAJIB kembali ke bentuk dasar V1!'
+          ]
+        },
+        signals: [
+          ['yesterday', 'kemarin'], ['last night / week / year', 'tadi malam / minggu lalu'], ['two days ago', 'dua hari yang lalu'],
+          ['in 2019', 'pada tahun 2019'], ['this morning (sudah lewat)', 'tadi pagi']
+        ],
+        examples: [
+          { pol: '+', en: 'Dina bought a new English dictionary yesterday afternoon.', hl: 'bought', id: 'Dina membeli kamus bahasa Inggris baru kemarin sore.', tag: 'Irregular Verb' },
+          { pol: '-', en: 'They did not attend the seminar last Monday.', hl: 'did not attend', id: 'Mereka tidak menghadiri seminar Senin lalu.', tag: 'Negatif' },
+          { pol: '?', en: 'Did you finish all the practice questions last night?', hl: 'Did', id: 'Apakah kamu menyelesaikan semua soal latihan tadi malam?', tag: 'Tanya' },
+          { pol: '+', en: 'The weather was cool and breezy in Malang last week.', hl: 'was', id: 'Cuaca di Malang sejuk dan berangin minggu lalu.', tag: 'Nominal' }
+        ],
+        mistakes: [
+          { wrong: 'Did you went to the concert?', right: 'Did you go to the concert?', reason: 'Setelah "Did", kata kerja tidak boleh tetap V2 ("went"), melainkan harus kembali ke V1 ("go").' },
+          { wrong: "I didn't saw him at the cafe.", right: "I didn't see him at the cafe.", reason: 'Setelah "didn\'t", kata kerja wajib kembali ke V1 ("see").' }
+        ],
+        tip: 'Hati-hati dengan kalimat nominal! "Were you busy?" BENAR, sedangkan "Did you busy?" SALAH karena "busy" adalah kata sifat.'
+      },
+      {
+        id: 'past_continuous', number: 6, name: 'Past Continuous Tense', idTitle: 'Waktu Lampau Sedang Berlangsung',
+        category: 'past', aspect: 'Continuous', level: 'beginner',
+        summary: 'Menyatakan aktivitas yang sedang berlangsung pada titik waktu tertentu di masa lalu atau sedang berjalan ketika kejadian lain menyela.',
+        intro: 'Past Continuous Tense menghidupkan cerita masa lalu dengan menggambarkan suasana atau aktivitas latar belakang yang sedang berlangsung. Sangat sering berpasangan dengan Simple Past menggunakan "when" dan "while".',
+        timelineCaption: 'Aktivitas panjang sedang berlangsung di masa lalu dan (sering kali) disela satu titik kejadian.',
+        usages: [
+          { title: 'Aktivitas Sedang Berjalan Lalu Disela', desc: 'Aksi panjang (Past Continuous) sedang berjalan ketika aksi pendek (Simple Past) tiba-tiba terjadi.', ex: 'I was cooking dinner when the lights went out.' },
+          { title: 'Sedang Terjadi pada Jam Spesifik Lampau', desc: 'Aktivitas yang tepat sedang dilakukan pada pukul tertentu kemarin atau masa lalu.', ex: 'At 9 PM last night, we were watching a documentary.' },
+          { title: 'Dua Aktivitas Berjalan Bersamaan', desc: 'Dua kegiatan panjang terjadi serentak pada waktu yang sama di masa lalu memakai "while".', ex: 'While she was typing the report, he was reviewing the slides.' }
+        ],
+        formula: {
+          vp: 'S + was/were + V-ing + O/C', vn: 'S + was/were + not + V-ing + O/C', vi: 'Was/Were + S + V-ing + O/C ?',
+          np: 'S + was/were + being + Adj/Noun (sikap sementara)', nn: 'S + was/were + not + being + Adj/Noun', ni: 'Was/Were + S + being + Adj/Noun ?',
+          rules: [
+            'I, He, She, It → was (wasn\'t) + V-ing.',
+            'You, We, They → were (weren\'t) + V-ing.',
+            'Pola "when" biasanya diikuti Simple Past (aksi penyela), sedangkan "while" diikuti Past Continuous (aksi panjang).'
+          ]
+        },
+        signals: [
+          ['at 8 PM yesterday', 'pada pukul 8 malam kemarin'], ['when + Simple Past', 'ketika ...'],
+          ['while + Past Continuous', 'sementara / selagi ...'], ['all day yesterday', 'seharian kemarin']
+        ],
+        examples: [
+          { pol: '+', en: 'I was reading a novel when you called me last night.', hl: 'was reading', id: 'Aku sedang membaca novel ketika kamu meneleponku tadi malam.', tag: 'Aksi Disela' },
+          { pol: '+', en: 'While the teacher was explaining, the students were taking notes.', hl: 'was explaining', id: 'Selagi guru sedang menjelaskan, para siswa sedang mencatat.', tag: 'Bersamaan' },
+          { pol: '-', en: 'They were not paying attention during the briefing.', hl: 'were not paying', id: 'Mereka tidak sedang memperhatikan selama pengarahan.', tag: 'Negatif' },
+          { pol: '?', en: "What were you doing at 7 o'clock this morning?", hl: 'were you doing', id: 'Apa yang sedang kamu lakukan pukul 7 tadi pagi?', tag: 'Jam Spesifik' }
+        ],
+        mistakes: [
+          { wrong: 'You was sleeping when I arrived.', right: 'You were sleeping when I arrived.', reason: 'Subjek "You" selalu menggunakan "were", baik tunggal maupun jamak.' },
+          { wrong: 'While I walked home, it started to rain.', right: 'While I was walking home, it started to rain.', reason: 'Kata hubung "while" menekankan aksi yang sedang berlangsung, sehingga tepat memakai Past Continuous.' }
+        ],
+        tip: 'Bayangkan film: Past Continuous adalah "latar belakang yang sedang berjalan", sedangkan Simple Past adalah "kejadian mendadak yang memotong adegan".'
+      },
+      {
+        id: 'past_perfect', number: 7, name: 'Past Perfect Tense', idTitle: 'Waktu Lampau Sudah Selesai Lebih Dulu',
+        category: 'past', aspect: 'Perfect', level: 'intermediate',
+        summary: 'Menyatakan kejadian yang SUDAH selesai lebih dahulu sebelum kejadian lain terjadi di masa lampau ("masa lalu dari masa lalu").',
+        intro: 'Past Perfect Tense memperjelas urutan waktu ketika ada DUA peristiwa di masa lampau. Peristiwa yang terjadi LEBIH AWAL menggunakan Past Perfect (had + V3), sementara peristiwa BELAKANGAN menggunakan Simple Past (V2).',
+        timelineCaption: 'Kejadian A tuntas lebih awal sebelum titik Kejadian B yang juga berada di masa lalu.',
+        usages: [
+          { title: 'Kejadian Lebih Awal dari Dua Peristiwa Lampau', desc: 'Menjelaskan mana yang terjadi duluan sebelum aksi lampau kedua berlangsung.', ex: 'The train had already left when we reached the station.' },
+          { title: 'Sebab-Akibat di Masa Lampau', desc: 'Alasan kondisi masa lalu karena sesuatu telah terjadi sebelumnya.', ex: 'She passed the exam easily because she had studied hard.' },
+          { title: 'Conditional Tipe 3 & Reported Speech', desc: 'Digunakan dalam pengandaian masa lalu dan kalimat tidak langsung.', ex: 'If I had known about the traffic, I would have left earlier.' }
+        ],
+        formula: {
+          vp: 'S + had + V3 (Past Participle) + O/C', vn: "S + had + not (hadn't) + V3 + O/C", vi: 'Had + S + V3 + O/C ?',
+          np: 'S + had + been + Adj/Noun/Adv', nn: 'S + had + not + been + Adj/Noun/Adv', ni: 'Had + S + been + Adj/Noun/Adv ?',
+          rules: [
+            'SEMUA subjek menggunakan "had" + V3.',
+            'Pola umum: [Past Perfect] + before + [Simple Past].',
+            'Pola umum: [Simple Past] + after + [Past Perfect].'
+          ]
+        },
+        signals: [
+          ['before + Simple Past', 'sebelum ...'], ['after + Past Perfect', 'setelah ...'],
+          ['by the time ...', 'pada saat ...'], ['already', 'sudah'], ['never ... before', 'belum pernah sebelumnya']
+        ],
+        examples: [
+          { pol: '+', en: 'By the time we arrived at the cinema, the movie had started.', hl: 'had started', id: 'Pada saat kami tiba di bioskop, filmnya sudah dimulai.', tag: 'Urutan Waktu' },
+          { pol: '+', en: 'After he had finished his coffee, he drove to the office.', hl: 'had finished', id: 'Setelah dia menghabiskan kopinya, dia menyetir ke kantor.', tag: 'After' },
+          { pol: '-', en: 'I had never seen snow before I visited Japan in 2023.', hl: 'had never seen', id: 'Aku belum pernah melihat salju sebelum mengunjungi Jepang pada 2023.', tag: 'Pengalaman' },
+          { pol: '?', en: 'Had she locked the front door before she left the house?', hl: 'Had', id: 'Apakah dia sudah mengunci pintu depan sebelum pergi?', tag: 'Tanya' }
+        ],
+        mistakes: [
+          { wrong: 'Before he had arrived, we left.', right: 'Before he arrived, we had left.', reason: 'Kejadian yang lebih dulu terjadi adalah "we left", sehingga "had + V3" dipasang pada aksi lebih awal.' },
+          { wrong: 'She had ate dinner before 8 PM.', right: 'She had eaten dinner before 8 PM.', reason: 'Past Perfect harus memakai Verb 3 ("eaten"), bukan Verb 2 ("ate").' }
+        ],
+        tip: 'Jembatan keledai: Aksi 1 (lebih dulu) = had + V3. Aksi 2 (menyusul belakangan) = V2.'
+      },
+      {
+        id: 'past_perfect_continuous', number: 8, name: 'Past Perfect Continuous', idTitle: 'Waktu Lampau Selesai Sedang Berlangsung',
+        category: 'past', aspect: 'Perfect Continuous', level: 'advanced',
+        summary: 'Menekankan lamanya durasi aktivitas yang telah berlangsung terus-menerus sebelum titik waktu atau kejadian lain di masa lampau.',
+        intro: 'Past Perfect Continuous adalah versi lampau dari Present Perfect Continuous. Dipakai ketika kamu ingin menyoroti BERAPA LAMA aktivitas berlangsung sebelum berhenti atau disela peristiwa lain di masa lalu.',
+        timelineCaption: 'Gelombang durasi panjang di masa lalu yang berjalan hingga titik peristiwa lampau kedua.',
+        usages: [
+          { title: 'Durasi Aktivitas Sebelum Peristiwa Lampau Lain', desc: 'Menjelaskan berapa lama kegiatan berjalan sebelum kejadian kedua terjadi.', ex: 'She had been working at that bank for five years before she resigned.' },
+          { title: 'Penyebab Kondisi Fisik di Masa Lalu', desc: 'Menjelaskan alasan keadaan seseorang di masa lalu akibat aktivitas terus-menerus sebelumnya.', ex: 'The ground was wet because it had been raining all night.' }
+        ],
+        formula: {
+          vp: 'S + had + been + V-ing + O/C', vn: 'S + had + not + been + V-ing + O/C', vi: 'Had + S + been + V-ing + O/C ?',
+          np: 'Tidak lazim nominal (gunakan Past Perfect: S + had + been + Ana)', nn: 'Gunakan Past Perfect: S + had + not + been + Ana', ni: 'Gunakan Past Perfect: Had + S + been + Ana ?',
+          rules: [
+            'Semua subjek memakai "had been + V-ing".',
+            'Hampir selalu disertai penanda durasi (for / since / all night) DAN titik acuan lampau (before / when).',
+            'Kata kerja statis tetap menggunakan Past Perfect biasa (had known).'
+          ]
+        },
+        signals: [
+          ['for ... before ...', 'selama ... sebelum ...'], ['since ... when ...', 'sejak ... ketika ...'],
+          ['how long ... before ...', 'berapa lama ... sebelum ...'], ['all night / all day', 'semalaman / seharian']
+        ],
+        examples: [
+          { pol: '+', en: 'We had been driving for four hours before we finally found a rest area.', hl: 'had been driving', id: 'Kami sudah menyetir selama empat jam sebelum akhirnya menemukan tempat istirahat.', tag: 'Durasi Lampau' },
+          { pol: '+', en: 'His clothes were dusty because he had been cleaning the attic.', hl: 'had been cleaning', id: 'Pakaiannya berdebu karena dia baru saja membersihkan loteng.', tag: 'Sebab-Akibat' },
+          { pol: '-', en: 'They had not been practicing long when the coach stopped the match.', hl: 'had not been practicing', id: 'Mereka belum lama berlatih ketika pelatih menghentikan pertandingan.', tag: 'Negatif' },
+          { pol: '?', en: 'How long had you been waiting before the doctor called your name?', hl: 'had you been waiting', id: 'Sudah berapa lama kamu menunggu sebelum dokter memanggil namamu?', tag: 'Tanya' }
+        ],
+        mistakes: [
+          { wrong: 'I was waiting for two hours before the bus came.', right: 'I had been waiting for two hours before the bus came.', reason: 'Past Continuous tidak digunakan dengan durasi "for two hours" sebelum titik lampau lain; gunakan Past Perfect Continuous.' },
+          { wrong: 'She had been study all night before the exam.', right: 'She had been studying all night before the exam.', reason: 'Setelah "had been" dalam kalimat aktif continuous, kata kerja wajib berbentuk V-ing.' }
+        ],
+        tip: 'Jika ada 2 unsur sekaligus: durasi ("for 3 hours") + patokan lampau ("before/when + V2"), hampir pasti jawabannya Past Perfect Continuous!'
+      },
+      {
+        id: 'simple_future', number: 9, name: 'Simple Future Tense', idTitle: 'Waktu Masa Depan Sederhana',
+        category: 'future', aspect: 'Simple', level: 'beginner',
+        summary: 'Menyatakan keputusan spontan, janji, prediksi masa depan (will), serta niat atau rencana yang sudah dipikirkan sebelumnya (be going to).',
+        intro: 'Simple Future Tense memiliki dua pola utama: "will + V1" untuk keputusan mendadak, janji, tawaran bantuan, dan prediksi opini; serta "be going to + V1" untuk rencana yang sudah diputuskan sebelumnya dan prediksi berdasarkan bukti visual saat ini.',
+        timelineCaption: 'Satu titik kejadian yang akan terjadi di masa depan setelah "Sekarang".',
+        usages: [
+          { title: 'Keputusan Spontan & Tawaran (Will)', desc: 'Keputusan yang baru dibuat tepat saat berbicara.', ex: 'The bag looks heavy. I will help you carry it.' },
+          { title: 'Janji & Prediksi Opini (Will)', desc: 'Komitmen atau perkiraan berdasarkan pendapat pribadi.', ex: 'I promise I will call you as soon as I land.' },
+          { title: 'Rencana & Prediksi Berbukti (Be Going To)', desc: 'Niat yang sudah direncanakan sebelumnya atau tanda jelas yang terlihat sekarang.', ex: 'Look at those dark clouds! It is going to rain.' },
+          { title: 'Conditional Sentence Tipe 1', desc: 'Hasil masa depan jika syarat masa kini terpenuhi.', ex: 'If you practice daily, your English will improve.' }
+        ],
+        formula: {
+          vp: 'S + will + V1  |  S + am/is/are + going to + V1', vn: "S + will not (won't) + V1  |  S + be + not + going to + V1", vi: 'Will + S + V1 ?  |  Am/Is/Are + S + going to + V1 ?',
+          np: 'S + will + be + Adj/Noun/Adv', nn: 'S + will + not + be + Adj/Noun/Adv', ni: 'Will + S + be + Adj/Noun/Adv ?',
+          rules: [
+            'Semua subjek memakai "will" diikuti V1 murni (tanpa -s/-es dan tanpa "to").',
+            'Pada kalimat nominal (tanpa kata kerja aksi), WAJIB menambahkan "be" setelah "will" (will be ready).',
+            'Jangan memakai "will" di dalam anak kalimat waktu setelah when, before, after, as soon as, atau if—pakai Simple Present.'
+          ]
+        },
+        signals: [
+          ['tomorrow', 'besok'], ['next week / month / year', 'minggu / bulan / tahun depan'],
+          ['tonight', 'malam ini'], ['soon', 'segera'], ['in two days', 'dalam dua hari lagi']
+        ],
+        examples: [
+          { pol: '+', en: 'I think our team will win the innovation competition next month.', hl: 'will win', id: 'Menurutku tim kita akan memenangkan kompetisi inovasi bulan depan.', tag: 'Prediksi' },
+          { pol: '+', en: 'She is going to take the IELTS test in October.', hl: 'is going to take', id: 'Dia berencana mengikuti tes IELTS pada bulan Oktober.', tag: 'Rencana Matang' },
+          { pol: '-', en: 'We will not forget your kindness to our family.', hl: 'will not forget', id: 'Kami tidak akan melupakan kebaikanmu kepada keluarga kami.', tag: 'Janji' },
+          { pol: '?', en: 'Will you join the study group tonight?', hl: 'Will', id: 'Apakah kamu akan bergabung dengan kelompok belajar malam ini?', tag: 'Ajakan' },
+          { pol: '+', en: 'The new museum will be open to the public tomorrow.', hl: 'will be', id: 'Museum baru itu akan terbuka untuk umum besok.', tag: 'Nominal' }
+        ],
+        mistakes: [
+          { wrong: 'She will goes to Surabaya tomorrow.', right: 'She will go to Surabaya tomorrow.', reason: 'Setelah modal "will", kata kerja harus selalu dalam bentuk dasar V1 tanpa -s/-es.' },
+          { wrong: 'I will call you when I will arrive.', right: 'I will call you when I arrive.', reason: 'Anak kalimat waktu setelah "when" tidak boleh memakai "will"; gunakan Simple Present.' },
+          { wrong: 'He will happy with the gift.', right: 'He will be happy with the gift.', reason: '"Happy" adalah kata sifat, sehingga wajib ada "be" setelah "will".' }
+        ],
+        tip: 'Gunakan "will" saat keputusan baru muncul detik itu juga, dan "going to" saat niat sudah disusun sebelumnya atau ada bukti nyata di depan mata.'
+      },
+      {
+        id: 'future_continuous', number: 10, name: 'Future Continuous Tense', idTitle: 'Waktu Masa Depan Sedang Berlangsung',
+        category: 'future', aspect: 'Continuous', level: 'intermediate',
+        summary: 'Menyatakan aktivitas yang akan SEDANG berlangsung pada titik waktu tertentu di masa depan, atau pertanyaan sopan tentang rencana seseorang.',
+        intro: 'Future Continuous Tense menggambarkan adegan yang sedang aktif berjalan pada jam atau momen tertentu di masa depan. Juga berguna untuk menanyakan rencana orang lain secara halus dan sopan.',
+        timelineCaption: 'Aktivitas yang akan sedang berjalan melintasi titik waktu tertentu di masa depan.',
+        usages: [
+          { title: 'Sedang Berlangsung di Waktu Spesifik Masa Depan', desc: 'Kegiatan yang sedang dijalani tepat pada jam/momen tertentu besok atau nanti.', ex: 'At 10 AM tomorrow, I will be presenting our proposal.' },
+          { title: 'Aktivitas Masa Depan yang Akan Disela', desc: 'Aksi panjang di masa depan ketika aksi singkat lain (Simple Present) terjadi.', ex: 'She will be waiting at the gate when your plane lands.' },
+          { title: 'Pertanyaan Sopan Mengenai Rencana', desc: 'Menanyakan agenda seseorang dengan nada ramah dan tidak memaksa.', ex: 'Will you be using the laptop this evening?' }
+        ],
+        formula: {
+          vp: 'S + will + be + V-ing + O/C', vn: "S + will + not (won't) + be + V-ing + O/C", vi: 'Will + S + be + V-ing + O/C ?',
+          np: 'Tidak lazim nominal (gunakan Simple Future: S + will + be + Ana)', nn: 'Gunakan Simple Future: S + will + not + be + Ana', ni: 'Gunakan Simple Future: Will + S + be + Ana ?',
+          rules: [
+            'Semua subjek memakai "will be + V-ing".',
+            'Pada kalimat tanya, "be" tetap berada setelah subjek: Will + S + be + V-ing?',
+            'Anak kalimat waktu (when/while) menggunakan Simple Present.'
+          ]
+        },
+        signals: [
+          ['at this time tomorrow', 'pada jam seperti ini besok'], ['at 9 PM tonight', 'pada pukul 9 malam nanti'],
+          ['this time next week', 'waktu seperti ini minggu depan'], ['when + Simple Present', 'ketika ... nanti']
+        ],
+        examples: [
+          { pol: '+', en: 'This time tomorrow, we will be relaxing on the beach in Lombok.', hl: 'will be relaxing', id: 'Jam seperti ini besok, kita akan sedang bersantai di pantai Lombok.', tag: 'Titik Masa Depan' },
+          { pol: '-', en: "Don't worry, I won't be working late tonight.", hl: "won't be working", id: 'Jangan khawatir, aku tidak akan sedang lembur malam ini.', tag: 'Negatif' },
+          { pol: '?', en: 'Will you be passing by the post office on your way home?', hl: 'Will', id: 'Apakah kamu nanti akan melewati kantor pos dalam perjalanan pulang?', tag: 'Pertanyaan Sopan' },
+          { pol: '+', en: 'The engineers will still be testing the app when the client arrives.', hl: 'will still be testing', id: 'Para insinyur masih akan sedang menguji aplikasi ketika klien tiba.', tag: 'Disela' }
+        ],
+        mistakes: [
+          { wrong: 'I will studying at 8 PM tonight.', right: 'I will be studying at 8 PM tonight.', reason: 'Jangan melupakan kata "be" di antara "will" dan "V-ing".' },
+          { wrong: 'Will be you attending the webinar tomorrow?', right: 'Will you be attending the webinar tomorrow?', reason: 'Dalam kalimat tanya, subjek ditempatkan di antara "Will" dan "be".' }
+        ],
+        tip: 'Ciri khas soal Future Continuous: ada dua penanda waktu sekaligus, yaitu titik jam spesifik + kata masa depan ("at 7 PM tomorrow" atau "this time next year").'
+      },
+      {
+        id: 'future_perfect', number: 11, name: 'Future Perfect Tense', idTitle: 'Waktu Masa Depan Sudah Selesai',
+        category: 'future', aspect: 'Perfect', level: 'advanced',
+        summary: 'Menyatakan aktivitas yang akan SUDAH selesai tuntas sebelum batas waktu (deadline) atau peristiwa tertentu di masa depan.',
+        intro: 'Future Perfect Tense melihat masa depan dari sudut pandang "menoleh ke belakang" pada tenggat waktu tertentu. Intinya: sebelum titik waktu X di masa depan tiba, pekerjaan ini akan sudah rampung.',
+        timelineCaption: 'Aktivitas selesai tuntas SEBELUM batas waktu ("by ...") di masa depan.',
+        usages: [
+          { title: 'Selesai Sebelum Tenggat Waktu Masa Depan', desc: 'Target atau pencapaian yang sudah rampung menjelang tanggal atau jam tertentu nanti.', ex: 'By next Friday, we will have completed the entire module.' },
+          { title: 'Selesai Sebelum Kejadian Masa Depan Lain', desc: 'Aksi pertama sudah selesai ketika aksi kedua di masa depan terjadi.', ex: 'The guests will have left by the time we get home.' }
+        ],
+        formula: {
+          vp: 'S + will + have + V3 (Past Participle) + O/C', vn: "S + will + not (won't) + have + V3 + O/C", vi: 'Will + S + have + V3 + O/C ?',
+          np: 'S + will + have + been + Adj/Noun/Adv', nn: 'S + will + not + have + been + Adj/Noun/Adv', ni: 'Will + S + have + been + Adj/Noun/Adv ?',
+          rules: [
+            'Semua subjek memakai "will have + V3" — JANGAN pernah memakai "will has" meskipun subjeknya He/She/It!',
+            'Penanda waktu terkuat adalah preposisi "by" (by tomorrow, by 2030, by the time ...).',
+            'Anak kalimat setelah "by the time" memakai Simple Present.'
+          ]
+        },
+        signals: [
+          ['by tomorrow / by 5 PM', 'menjelang besok / sebelum jam 5 sore'], ['by next month / year', 'menjelang bulan / tahun depan'],
+          ['by the end of ...', 'pada akhir ...'], ['by the time + Simple Present', 'pada saat ... nanti']
+        ],
+        examples: [
+          { pol: '+', en: 'By December, Clara will have saved enough money for her trip.', hl: 'will have saved', id: 'Menjelang Desember, Clara akan sudah menabung cukup uang untuk perjalanannya.', tag: 'Tenggat Waktu' },
+          { pol: '-', en: 'They will not have finished painting the house by Sunday.', hl: 'will not have finished', id: 'Mereka belum akan selesai mengecat rumah menjelang hari Minggu.', tag: 'Negatif' },
+          { pol: '?', en: 'Will you have submitted the thesis before the deadline?', hl: 'Will', id: 'Apakah kamu akan sudah mengumpulkan skripsimu sebelum tenggat waktu?', tag: 'Tanya' },
+          { pol: '+', en: 'By next year, my parents will have been married for thirty years.', hl: 'will have been', id: 'Menjelang tahun depan, orang tuaku akan sudah menikah selama tiga puluh tahun.', tag: 'Nominal' }
+        ],
+        mistakes: [
+          { wrong: 'She will has finished her work by noon.', right: 'She will have finished her work by noon.', reason: 'Setelah modal "will", auxiliary selalu berbentuk dasar "have", tidak pernah "has".' },
+          { wrong: 'By the time he will arrive, we will have eaten.', right: 'By the time he arrives, we will have eaten.', reason: 'Klausa "by the time" menggunakan Simple Present ("arrives").' }
+        ],
+        tip: 'Kata kunci rahasia Future Perfect adalah "BY ..." (by tomorrow, by 2028, by the time). Jika ada "by + waktu masa depan", cek rumus will + have + V3!'
+      },
+      {
+        id: 'future_perfect_continuous', number: 12, name: 'Future Perfect Continuous', idTitle: 'Waktu Masa Depan Selesai Sedang Berlangsung',
+        category: 'future', aspect: 'Perfect Continuous', level: 'advanced',
+        summary: 'Menekankan total durasi suatu aktivitas yang akan sudah terus berlangsung hingga titik waktu tertentu di masa depan.',
+        intro: 'Future Perfect Continuous menggabungkan gagasan tenggat waktu masa depan ("by ...") dengan penekanan durasi berkelanjutan ("for ..."). Aktivitasnya terus berjalan sampai titik patokan di masa depan.',
+        timelineCaption: 'Gelombang durasi terus berjalan melintasi "Sekarang" hingga titik patokan "By ..." di masa depan.',
+        usages: [
+          { title: 'Total Durasi Hingga Titik Masa Depan', desc: 'Menghitung berapa lama suatu aktivitas sudah berlangsung pada momen tertentu di masa depan.', ex: 'By 5 PM, I will have been studying for six hours straight.' },
+          { title: 'Menjelaskan Sebab Kondisi di Masa Depan', desc: 'Memprediksi kondisi fisik nanti karena aktivitas panjang sebelumnya.', ex: 'She will be tired because she will have been traveling all day.' }
+        ],
+        formula: {
+          vp: 'S + will + have + been + V-ing + O/C', vn: "S + will + not (won't) + have + been + V-ing + O/C", vi: 'Will + S + have + been + V-ing + O/C ?',
+          np: 'Tidak lazim nominal (gunakan Future Perfect: S + will + have + been + Ana)', nn: 'Gunakan Future Perfect: S + will + not + have + been + Ana', ni: 'Gunakan Future Perfect: Will + S + have + been + Ana ?',
+          rules: [
+            'Semua subjek memakai "will have been + V-ing" (tidak pernah "will has been").',
+            'Hampir selalu memiliki DUA keterangan waktu: titik patokan (by ...) DAN durasi (for ...).',
+            'Hindari stative verbs seperti know, own, love (gunakan Future Perfect biasa).'
+          ]
+        },
+        signals: [
+          ['by ... for ...', 'menjelang ... selama ...'], ['by next year ... for 5 years', 'menjelang tahun depan ... selama 5 tahun'],
+          ['by the time ... for ...', 'pada saat ... selama ...']
+        ],
+        examples: [
+          { pol: '+', en: 'By next August, Budi will have been teaching English for ten years.', hl: 'will have been teaching', id: 'Menjelang Agustus depan, Budi akan sudah mengajar bahasa Inggris selama sepuluh tahun.', tag: 'Durasi Karier' },
+          { pol: '+', en: 'When the bell rings, we will have been taking this test for two hours.', hl: 'will have been taking', id: 'Ketika bel berbunyi nanti, kami akan sudah mengerjakan ujian ini selama dua jam.', tag: 'Durasi Ujian' },
+          { pol: '-', en: "They won't have been living in Jakarta for long by the time they move.", hl: "won't have been living", id: 'Mereka belum akan tinggal lama di Jakarta pada saat mereka pindah nanti.', tag: 'Negatif' },
+          { pol: '?', en: 'How long will you have been working on this research by June?', hl: 'will you have been working', id: 'Sudah berapa lama kamu akan mengerjakan penelitian ini menjelang Juni?', tag: 'Tanya' }
+        ],
+        mistakes: [
+          { wrong: 'By 2027, she will have been knowing him for a decade.', right: 'By 2027, she will have known him for a decade.', reason: '"Know" adalah kata kerja statis, sehingga gunakan Future Perfect ("will have known").' },
+          { wrong: 'By noon, I will been cooking for three hours.', right: 'By noon, I will have been cooking for three hours.', reason: 'Auxiliary "have" tidak boleh dihilangkan dari rangkaian will + have + been + V-ing.' }
+        ],
+        tip: 'Formula pengingat 2 sinyal: "By + masa depan" + "for + durasi" = Future Perfect Continuous (will have been + V-ing)!'
+      },
+      {
+        id: 'simple_past_future', number: 13, name: 'Simple Past Future Tense', idTitle: 'Waktu Akan Datang di Masa Lampau',
+        category: 'past_future', aspect: 'Simple', level: 'intermediate',
+        summary: 'Menyatakan rencana masa depan dilihat dari sudut pandang masa lalu, kalimat tidak langsung (reported speech), serta pengandaian Tipe 2.',
+        intro: 'Simple Past Future menggunakan "would + V1" atau "was/were going to + V1". Bayangkan kamu berada di masa lalu dan merencanakan sesuatu untuk waktu setelahnya, atau mengungkapkan pengandaian masa kini (Conditional Tipe 2).',
+        timelineCaption: 'Dari satu titik di masa lalu, memandang ke arah masa depan atau dunia pengandaian.',
+        usages: [
+          { title: 'Reported Speech (Kalimat Tidak Langsung)', desc: 'Melaporkan janji atau rencana seseorang di masa lalu ("will" berubah menjadi "would").', ex: 'She promised she would send the files on Monday.' },
+          { title: 'Rencana Masa Lalu yang Batal (Was/Were Going To)', desc: 'Niat di masa lalu yang pada akhirnya tidak jadi terlaksana.', ex: 'I was going to visit you, but it rained heavily.' },
+          { title: 'Conditional Sentence Tipe 2', desc: 'Menyatakan hasil dari situasi khayalan/tidak nyata di masa sekarang.', ex: 'If I had more free time, I would learn Japanese.' },
+          { title: 'Permintaan Sopan (Polite Request)', desc: 'Meminta bantuan atau menawarkan sesuatu secara santun.', ex: 'Would you mind opening the window?' }
+        ],
+        formula: {
+          vp: 'S + would + V1  |  S + was/were + going to + V1', vn: "S + would + not (wouldn't) + V1", vi: 'Would + S + V1 + O/C ?',
+          np: 'S + would + be + Adj/Noun/Adv', nn: 'S + would + not + be + Adj/Noun/Adv', ni: 'Would + S + be + Adj/Noun/Adv ?',
+          rules: [
+            'Semua subjek memakai "would + V1" (tanpa -s/-es).',
+            'Dalam Conditional Tipe 2: If + Simple Past (V2 / were), S + would + V1.',
+            'Untuk kalimat nominal setelah "would", wajib sertakan "be" (would be happy).'
+          ]
+        },
+        signals: [
+          ['the next day / following week', 'keesokan harinya / minggu berikutnya'], ['if + Simple Past', 'jika ... (pengandaian kini)'],
+          ['he said that ...', 'dia berkata bahwa ...'], ['yesterday (rencana batal)', 'kemarin']
+        ],
+        examples: [
+          { pol: '+', en: 'Rani said that she would join the English debate club.', hl: 'would join', id: 'Rani berkata bahwa dia akan bergabung dengan klub debat bahasa Inggris.', tag: 'Reported Speech' },
+          { pol: '+', en: 'If I were a millionaire, I would build a free public library.', hl: 'would build', id: 'Seandainya aku seorang jutawan, aku akan membangun perpustakaan umum gratis.', tag: 'Conditional Tipe 2' },
+          { pol: '+', en: 'We were going to hike Mount Bromo, but the trail closed.', hl: 'were going to hike', id: 'Kami tadinya akan mendaki Gunung Bromo, tetapi jalurnya ditutup.', tag: 'Rencana Batal' },
+          { pol: '-', en: 'He told me he would not attend the evening party.', hl: 'would not attend', id: 'Dia memberitahuku bahwa dia tidak akan menghadiri pesta malam itu.', tag: 'Negatif' }
+        ],
+        mistakes: [
+          { wrong: 'If I would have money, I would buy a car.', right: 'If I had money, I would buy a car.', reason: 'Jangan memakai "would" di dalam klausa "If". Klausa "If" memakai Simple Past ("had").' },
+          { wrong: 'She said she will come the next day.', right: 'She said she would come the next day.', reason: 'Karena kata kerja pelapornya lampau ("said"), "will" bergeser menjadi "would".' }
+        ],
+        tip: 'Aturan sakti Conditional Tipe 2: Dalam ragam formal/ujian, gunakan "were" untuk semua subjek termasuk "I" dan "he/she" (If I were you...).'
+      },
+      {
+        id: 'past_future_continuous', number: 14, name: 'Past Future Continuous', idTitle: 'Waktu Akan Sedang Berlangsung di Masa Lampau',
+        category: 'past_future', aspect: 'Continuous', level: 'advanced',
+        summary: 'Menyatakan aktivitas yang seharusnya atau diperkirakan akan sedang berlangsung pada waktu tertentu di masa lalu (laporan atau pengandaian).',
+        intro: 'Past Future Continuous menggunakan "would be + V-ing". Muncul ketika melaporkan Future Continuous ke dalam Reported Speech, atau membayangkan aktivitas yang sedang berlangsung sekarang andaikan kondisinya berbeda.',
+        timelineCaption: 'Aktivitas yang diproyeksikan sedang berjalan dari sudut pandang masa lalu atau situasi khayalan.',
+        usages: [
+          { title: 'Reported Speech dari Future Continuous', desc: 'Mengubah "will be + V-ing" menjadi "would be + V-ing" saat melaporkan ucapan masa lalu.', ex: 'He told me he would be flying to Singapore at 9 AM.' },
+          { title: 'Pengandaian Aktivitas Sedang Berlangsung', desc: 'Membayangkan kegiatan yang sedang dilakukan sekarang jika syarat terpenuhi.', ex: "If I weren't sick today, I would be playing badminton with them." }
+        ],
+        formula: {
+          vp: 'S + would + be + V-ing + O/C', vn: "S + would + not (wouldn't) + be + V-ing + O/C", vi: 'Would + S + be + V-ing + O/C ?',
+          np: 'Tidak lazim nominal (gunakan Simple Past Future: S + would + be + Ana)', nn: 'Gunakan Simple Past Future: S + would + not + be + Ana', ni: 'Gunakan Simple Past Future: Would + S + be + Ana ?',
+          rules: [
+            'Semua subjek memakai "would be + V-ing".',
+            'Biasanya hadir dalam kalimat majemuk bersama klausa pelapor (said/knew) atau klausa "if".'
+          ]
+        },
+        signals: [
+          ['at that time the next day', 'pada jam tersebut keesokan harinya'], ['at 8 PM yesterday (proyeksi)', 'pukul 8 malam kemarin'],
+          ['if + Simple Past (right now)', 'jika ... (aktivitas sekarang)']
+        ],
+        examples: [
+          { pol: '+', en: 'She said she would be studying at the library all afternoon.', hl: 'would be studying', id: 'Dia berkata bahwa dia akan sedang belajar di perpustakaan sepanjang sore.', tag: 'Reported Speech' },
+          { pol: '+', en: 'If we had taken the earlier train, we would be having dinner right now.', hl: 'would be having', id: 'Andaikan kita naik kereta lebih awal, kita sekarang pasti sedang makan malam.', tag: 'Mixed Conditional' },
+          { pol: '-', en: "I wouldn't be sitting here if I had another option.", hl: "wouldn't be sitting", id: 'Aku tidak akan sedang duduk di sini jika aku punya pilihan lain.', tag: 'Pengandaian' },
+          { pol: '?', en: 'Did he mention whether he would be working from home on Friday?', hl: 'would be working', id: 'Apakah dia menyebutkan apakah dia akan sedang bekerja dari rumah hari Jumat?', tag: 'Tanya' }
+        ],
+        mistakes: [
+          { wrong: 'He said he would studying at 7 PM.', right: 'He said he would be studying at 7 PM.', reason: 'Kata "be" wajib ada sebelum V-ing agar struktur continuous lengkap.' }
+        ],
+        tip: 'Gunakan "would be + V-ing" saat ingin mengekspresikan "pasti sekarang sedang..." dalam kalimat pengandaian!'
+      },
+      {
+        id: 'past_future_perfect', number: 15, name: 'Past Future Perfect Tense', idTitle: 'Waktu Akan Sudah Selesai di Masa Lampau',
+        category: 'past_future', aspect: 'Perfect', level: 'advanced',
+        summary: 'Menyatakan kejadian yang SEHARUSNYA sudah selesai di masa lampau namun kenyataannya tidak terjadi — inti Conditional Sentence Tipe 3.',
+        intro: 'Past Future Perfect Tense (would have + V3) dipakai untuk mengungkapkan penyesalan, evaluasi masa lalu, atau skenario "andaikan dulu begini, pasti sudah begitu".',
+        timelineCaption: 'Jalur alternatif di masa lalu: sesuatu akan sudah tuntas jika syarat lampau terpenuhi.',
+        usages: [
+          { title: 'Conditional Sentence Tipe 3 (Penyesalan Masa Lalu)', desc: 'Menyatakan hasil masa lalu yang bertentangan dengan kenyataan sejarah.', ex: 'If you had reminded me, I would have brought the document.' },
+          { title: 'Reported Speech dari Future Perfect', desc: 'Melaporkan target penyelesaian yang diucapkan di masa lalu.', ex: 'The contractor assured us they would have finished by March.' }
+        ],
+        formula: {
+          vp: 'S + would + have + V3 (Past Participle) + O/C', vn: "S + would + not (wouldn't) + have + V3 + O/C", vi: 'Would + S + have + V3 + O/C ?',
+          np: 'S + would + have + been + Adj/Noun/Adv', nn: 'S + would + not + have + been + Adj/Noun/Adv', ni: 'Would + S + have + been + Adj/Noun/Adv ?',
+          rules: [
+            'Semua subjek memakai "would have + V3" (tidak pernah "would has").',
+            'Pasangan wajib Conditional Tipe 3: If + S + had + V3, S + would + have + V3.',
+            'Bisa juga memakai "could have + V3" atau "should have + V3".'
+          ]
+        },
+        signals: [
+          ['if + Past Perfect', 'andaikan dulu sudah ...'], ['by that time', 'menjelang waktu itu (lampau)'],
+          ['otherwise', 'kalau tidak, pasti sudah ...'], ['but for ...', 'tanpa ... (dulu)']
+        ],
+        examples: [
+          { pol: '+', en: 'If she had practiced harder, she would have won the scholarship.', hl: 'would have won', id: 'Andaikan dia berlatih lebih giat dulu, dia pasti sudah memenangkan beasiswa itu.', tag: 'Conditional Tipe 3' },
+          { pol: '-', en: "We wouldn't have missed the flight if we had left an hour earlier.", hl: "wouldn't have missed", id: 'Kita tidak akan ketinggalan pesawat seandainya kita berangkat satu jam lebih awal.', tag: 'Penyesalan' },
+          { pol: '?', en: 'What would you have done if you had been in my position?', hl: 'would you have done', id: 'Apa yang akan kamu lakukan seandainya dulu kamu berada di posisiku?', tag: 'Hipotetis' },
+          { pol: '+', en: 'Without your guidance, the project would have been a complete failure.', hl: 'would have been', id: 'Tanpa bimbinganmu, proyek itu pasti sudah menjadi kegagalan total.', tag: 'Nominal' }
+        ],
+        mistakes: [
+          { wrong: 'If I would have known, I would have helped you.', right: 'If I had known, I would have helped you.', reason: 'Di dalam klausa "If" Conditional Tipe 3 gunakan Past Perfect ("had known"), bukan "would have known".' },
+          { wrong: 'She would have went to the meeting.', right: 'She would have gone to the meeting.', reason: 'Setelah "would have", kata kerja harus selalu dalam bentuk Verb 3 ("gone").' }
+        ],
+        tip: 'Hafalkan pasangan emas Conditional Tipe 3: If + HAD + V3 ↔ WOULD HAVE + V3. Sering sekali keluar di tes TOEFL/IELTS!'
+      },
+      {
+        id: 'past_future_perfect_continuous', number: 16, name: 'Past Future Perfect Continuous', idTitle: 'Waktu Akan Sudah Sedang Berlangsung di Masa Lampau',
+        category: 'past_future', aspect: 'Perfect Continuous', level: 'advanced',
+        summary: 'Menyatakan durasi aktivitas yang seharusnya akan sudah terus berlangsung hingga titik waktu tertentu di masa lampau jika kondisinya tidak berubah.',
+        intro: 'Past Future Perfect Continuous (would have been + V-ing) adalah tense paling kompleks dari 16 tenses. Menekankan DURASI dari sebuah skenario alternatif di masa lalu, atau bentuk Reported Speech dari Future Perfect Continuous.',
+        timelineCaption: 'Durasi gelombang hipotesis yang akan sudah berjalan sampai titik tertentu di masa lalu.',
+        usages: [
+          { title: 'Durasi Hipotetis di Masa Lampau', desc: 'Berapa lama sesuatu pasti sudah berlangsung di masa lalu andaikan tidak terhenti atau batal.', ex: "By last December, I would have been working there for five years if I hadn't resigned." },
+          { title: 'Reported Speech dari Future Perfect Continuous', desc: 'Melaporkan pernyataan durasi masa depan yang diucapkan sebelumnya.', ex: 'He noted that by June they would have been developing the app for a year.' }
+        ],
+        formula: {
+          vp: 'S + would + have + been + V-ing + O/C', vn: "S + would + not (wouldn't) + have + been + V-ing + O/C", vi: 'Would + S + have + been + V-ing + O/C ?',
+          np: 'Tidak lazim nominal (gunakan Past Future Perfect: S + would + have + been + Ana)', nn: 'Gunakan Past Future Perfect: S + would + not + have + been + Ana', ni: 'Gunakan Past Future Perfect: Would + S + have + been + Ana ?',
+          rules: [
+            'Semua subjek memakai rangkaian lengkap: would + have + been + V-ing.',
+            'Memerlukan penanda durasi ("for ...") serta konteks lampau/pengandaian.',
+            'Tetap hindari penggunaan pada kata kerja statis.'
+          ]
+        },
+        signals: [
+          ['by last ... for ...', 'menjelang ... lalu selama ...'], ['for ... if + Past Perfect', 'selama ... andaikan dulu ...'],
+          ['he said that by ... for ...', 'dia berkata menjelang ... selama ...']
+        ],
+        examples: [
+          { pol: '+', en: "If the company hadn't closed, we would have been working together for ten years by last May.", hl: 'would have been working', id: 'Andaikan perusahaan itu tidak tutup, kita pasti sudah bekerja bersama selama sepuluh tahun menjelang Mei lalu.', tag: 'Durasi Hipotetis' },
+          { pol: '+', en: 'Maya said that by the end of that week, she would have been practicing for a month.', hl: 'would have been practicing', id: 'Maya berkata bahwa pada akhir minggu itu, dia akan sudah berlatih selama sebulan.', tag: 'Reported Speech' },
+          { pol: '-', en: "They wouldn't have been waiting for three hours if the flight had departed on time.", hl: "wouldn't have been waiting", id: 'Mereka tidak akan menunggu selama tiga jam seandainya penerbangannya berangkat tepat waktu.', tag: 'Negatif' },
+          { pol: '?', en: "How long would you have been living in London if you hadn't returned in 2022?", hl: 'would you have been living', id: 'Sudah berapa lama kamu akan tinggal di London seandainya tidak pulang pada 2022?', tag: 'Tanya' }
+        ],
+        mistakes: [
+          { wrong: 'I would have being studying for four hours.', right: 'I would have been studying for four hours.', reason: 'Setelah "have", bentuk yang benar adalah V3 dari "be" yaitu "been", bukan "being".' },
+          { wrong: 'She would has been teaching for years if she had stayed.', right: 'She would have been teaching for years if she had stayed.', reason: 'Setelah "would", selalu gunakan "have", tidak pernah "has".' }
+        ],
+        tip: 'Urutan 4 kata kunci yang tidak boleh tertukar: WOULD → HAVE → BEEN → V-ING!'
+      }
+    ];
+
+    const COMPARISONS = [
+      {
+        title: 'Simple Past vs Present Perfect', a: 'Simple Past', b: 'Present Perfect',
+        diff: 'Simple Past menekankan KAPAN kejadian selesai di masa lalu (waktu spesifik & sudah putus). Present Perfect menekankan PENGALAMAN atau DAMPAKNYA hingga sekarang tanpa waktu lampau spesifik.',
+        exA: 'I lost my wallet yesterday.', mA: 'Dompetku hilang kemarin (fokus waktu kemarin; sekarang mungkin sudah ketemu).',
+        exB: 'I have lost my wallet!', mB: 'Dompetku hilang! (dampak terasa sekarang: aku tidak punya uang/kartu saat ini).',
+        trick: 'Ada "yesterday / last week / ago / in 2020"? Pakai Simple Past. Ada "already / yet / ever / since / for" hingga kini? Pakai Present Perfect.'
+      },
+      {
+        title: 'Simple Present vs Present Continuous', a: 'Simple Present', b: 'Present Continuous',
+        diff: 'Simple Present menyatakan rutinitas permanen dan fakta umum. Present Continuous menyatakan aksi yang sedang terjadi saat ini atau situasi sementara.',
+        exA: 'Rama works as an architect in Jakarta.', mA: 'Rama bekerja sebagai arsitek di Jakarta (pekerjaan tetap).',
+        exB: 'Rama is working from Bali this week.', mB: 'Rama sedang bekerja dari Bali minggu ini (sementara).',
+        trick: 'Permanen & Rutin → V1(s/es). Sementara & Sedang Terjadi → am/is/are + V-ing.'
+      },
+      {
+        title: 'Will vs Be Going To', a: 'Simple Future (Will)', b: 'Be Going To',
+        diff: '"Will" dipakai untuk keputusan spontan saat berbicara, janji, dan prediksi opini. "Be going to" untuk rencana yang sudah diputuskan sebelumnya dan prediksi berdasarkan bukti visual.',
+        exA: 'Wait, I will open the door for you!', mA: 'Tunggu, aku bukakan pintunya! (keputusan spontan detik itu juga).',
+        exB: 'Look at the sky! It is going to rain soon.', mB: 'Lihat langitnya! Sebentar lagi pasti hujan (ada bukti awan gelap).',
+        trick: 'Spontan / Janji → Will. Sudah Direncanakan / Ada Bukti Visual → Be going to.'
+      },
+      {
+        title: 'Past Continuous vs Simple Past', a: 'Past Continuous', b: 'Simple Past',
+        diff: 'Saat dua kejadian lampau terjadi bersamaan, Past Continuous adalah aksi panjang yang sedang berjalan, sedangkan Simple Past adalah kejadian singkat yang menyela.',
+        exA: 'I was taking a shower when the phone rang.', mA: 'Aku sedang mandi (aksi panjang) ketika telepon berdering (penyela).',
+        exB: 'I took a shower and then answered the phone.', mB: 'Aku mandi lalu menjawab telepon (dua aksi berurutan).',
+        trick: 'While + was/were V-ing (latar panjang) ↔ When + V2 (kejadian mendadak).'
+      },
+      {
+        title: 'Present Perfect vs Present Perfect Continuous', a: 'Present Perfect', b: 'Present Perfect Continuous',
+        diff: 'Present Perfect menonjolkan HASIL atau KUANTITAS yang sudah dicapai. Present Perfect Continuous menonjolkan DURASI dan PROSES aktivitas yang masih berlangsung.',
+        exA: 'She has written four chapters of her novel.', mA: 'Dia sudah menulis empat bab novelnya (fokus jumlah hasil).',
+        exB: 'She has been writing her novel since morning.', mB: 'Dia sudah menulis novelnya sejak pagi (fokus lamanya proses).',
+        trick: 'Menjawab "Berapa banyak?" → have/has + V3. Menjawab "Berapa lama?" → have/has + been + V-ing.'
+      },
+      {
+        title: 'Past Perfect vs Simple Past', a: 'Past Perfect', b: 'Simple Past',
+        diff: 'Gunakan Past Perfect untuk aksi yang TERJADI LEBIH DULU di masa lalu, dan Simple Past untuk aksi yang TERJADI SESUDAHNYA.',
+        exA: 'When I arrived, they had eaten dinner.', mA: 'Saat aku tiba, mereka sudah selesai makan malam (makan dulu → baru aku tiba).',
+        exB: 'When I arrived, they ate dinner.', mB: 'Saat aku tiba, mereka baru mulai makan malam bersama (aku tiba → lalu makan).',
+        trick: 'Aksi ke-1 (paling lampau) = had + V3. Aksi ke-2 (lebih baru) = V2.'
+      }
+    ];
+
+    const QUESTIONS = [
+      // BEGINNER (15)
+      { id: 'b1', tenseId: 'simple_present', tenseName: 'Simple Present Tense', level: 'beginner', type: 'mc', inst: 'Pilih bentuk kata kerja tepat untuk melengkapi kalimat rutinitas berikut.', prompt: 'My father usually _____ coffee before going to the office.', options: ['drink', 'drinks', 'is drinking', 'drank'], ans: 'drinks', exp: 'Kata "usually" menunjukkan kebiasaan rutin (Simple Present). Subjek "My father" (he) menambah akhiran -s → "drinks".', hint: 'S (He/She/It) + V1-s/es + O', spoken: 'My father usually drinks coffee before going to the office.' },
+      { id: 'b2', tenseId: 'simple_present', tenseName: 'Simple Present Tense', level: 'beginner', type: 'spot', inst: 'Ketuk bagian kalimat yang mengandung kesalahan tata bahasa.', prompt: 'Does your brother likes playing basketball on weekends?', options: ['Does', 'your brother', 'likes', 'on weekends'], ans: 'likes', exp: 'Setelah auxiliary "Does", kata kerja wajib kembali ke bentuk dasar V1 tanpa -s → "like".', hint: 'Does + S + V1 (tanpa -s/-es)?', spoken: 'Does your brother like playing basketball on weekends?' },
+      { id: 'b3', tenseId: 'simple_present', tenseName: 'Simple Present Tense', level: 'beginner', type: 'builder', inst: 'Susun kata berikut menjadi kalimat negatif Simple Present yang benar.', prompt: 'Terjemahan: Dia tidak makan daging setiap hari.', bank: ['eat', 'She', 'every day', 'does', 'meat', 'not'], ans: 'She does not eat meat every day', exp: 'Kalimat negatif Simple Present untuk subjek "She" memakai pola: S + does + not + V1 + O.', hint: 'S + does + not + V1 + O', spoken: 'She does not eat meat every day.' },
+
+      { id: 'b4', tenseId: 'present_continuous', tenseName: 'Present Continuous Tense', level: 'beginner', type: 'mc', inst: 'Lengkapi kalimat tentang aktivitas yang sedang berlangsung saat ini.', prompt: 'Be quiet, please! The baby _____ in the bedroom right now.', options: ['sleeps', 'is sleeping', 'slept', 'sleep'], ans: 'is sleeping', exp: '"Be quiet!" dan "right now" menandakan aktivitas sedang berlangsung detik ini → Present Continuous (is sleeping).', hint: 'S + am/is/are + V-ing', spoken: 'Be quiet, please! The baby is sleeping in the bedroom right now.' },
+      { id: 'b5', tenseId: 'present_continuous', tenseName: 'Present Continuous Tense', level: 'beginner', type: 'spot', inst: 'Pilih bagian kalimat yang tidak tepat secara gramatikal.', prompt: 'I am knowing the right answer to this geography question.', options: ['I', 'am knowing', 'the right answer', 'geography question'], ans: 'am knowing', exp: '"Know" adalah stative verb yang tidak boleh memakai -ing. Seharusnya: "I know the right answer."', hint: 'Stative verbs (know, love, want) → Simple Present', spoken: 'I know the right answer to this geography question.' },
+      { id: 'b6', tenseId: 'present_continuous', tenseName: 'Present Continuous Tense', level: 'beginner', type: 'builder', inst: 'Susun kata berikut menjadi kalimat tanya Present Continuous yang tepat.', prompt: 'Terjemahan: Apakah kamu sedang menunggu kereta sekarang?', bank: ['waiting', 'now', 'Are', 'the train', 'you', 'for'], ans: 'Are you waiting for the train now', exp: 'Kalimat tanya Present Continuous diawali to be "Are" + subjek "you" + V-ing "waiting".', hint: 'Am/Is/Are + S + V-ing?', spoken: 'Are you waiting for the train now?' },
+
+      { id: 'b7', tenseId: 'simple_past', tenseName: 'Simple Past Tense', level: 'beginner', type: 'mc', inst: 'Pilih bentuk kata kerja lampau yang benar.', prompt: 'We _____ a fascinating history museum in Yogyakarta last month.', options: ['visit', 'visited', 'are visiting', 'have visit'], ans: 'visited', exp: '"Last month" menunjukkan kejadian selesai spesifik di masa lalu → Simple Past (V2: visited).', hint: 'S + V2 + O (last month)', spoken: 'We visited a fascinating history museum in Yogyakarta last month.' },
+      { id: 'b8', tenseId: 'simple_past', tenseName: 'Simple Past Tense', level: 'beginner', type: 'spot', inst: 'Temukan kata yang salah dalam kalimat negatif lampau ini.', prompt: "Rina didn't went to the bookstore yesterday afternoon.", options: ['Rina', "didn't", 'went', 'yesterday afternoon'], ans: 'went', exp: 'Setelah "didn\'t", kata kerja wajib kembali ke V1 yaitu "go", bukan V2 "went".', hint: "S + did not (didn't) + V1", spoken: "Rina didn't go to the bookstore yesterday afternoon." },
+      { id: 'b9', tenseId: 'simple_past', tenseName: 'Simple Past Tense', level: 'beginner', type: 'builder', inst: 'Susun kata berikut menjadi kalimat Simple Past yang benar.', prompt: 'Terjemahan: Mereka membeli dua tiket konser kemarin.', bank: ['yesterday', 'two', 'They', 'tickets', 'bought', 'concert'], ans: 'They bought two concert tickets yesterday', exp: 'Bentuk lampau (V2) dari "buy" adalah "bought". Pola: S + V2 + O + keterangan waktu.', hint: 'S + V2 (irregular) + O', spoken: 'They bought two concert tickets yesterday.' },
+
+      { id: 'b10', tenseId: 'past_continuous', tenseName: 'Past Continuous Tense', level: 'beginner', type: 'mc', inst: 'Lengkapi kalimat dua kejadian lampau yang saling menyela ini.', prompt: 'I _____ dinner when someone knocked loudly on the door.', options: ['cooked', 'was cooking', 'am cooking', 'were cooking'], ans: 'was cooking', exp: 'Aksi panjang yang sedang berlangsung ketika disela ("when someone knocked") memakai Past Continuous: "was cooking".', hint: 'S + was/were + V-ing + when + S + V2', spoken: 'I was cooking dinner when someone knocked loudly on the door.' },
+      { id: 'b11', tenseId: 'past_continuous', tenseName: 'Past Continuous Tense', level: 'beginner', type: 'mc', inst: 'Pilih bentuk tepat untuk jam spesifik di masa lalu.', prompt: 'At 8 PM last night, my parents _____ the evening news on TV.', options: ['was watching', 'were watching', 'watched', 'are watching'], ans: 'were watching', exp: 'Jam spesifik di masa lalu + subjek jamak "my parents" memakai "were watching".', hint: 'S (jamak) + were + V-ing', spoken: 'At 8 PM last night, my parents were watching the evening news on TV.' },
+      { id: 'b12', tenseId: 'past_continuous', tenseName: 'Past Continuous Tense', level: 'beginner', type: 'spot', inst: 'Temukan bagian yang salah dalam kalimat berikut.', prompt: 'You was driving too fast when the rain started.', options: ['You', 'was driving', 'too fast', 'started'], ans: 'was driving', exp: 'Subjek "You" selalu memakai "were", tidak pernah "was" → "You were driving".', hint: 'You/We/They + were + V-ing', spoken: 'You were driving too fast when the rain started.' },
+
+      { id: 'b13', tenseId: 'simple_future', tenseName: 'Simple Future Tense', level: 'beginner', type: 'mc', inst: 'Pilih jawaban tepat untuk prediksi yang memiliki bukti visual.', prompt: 'Look at those thick black clouds! It _____ rain very soon.', options: ['is going to', 'will be', 'goes to', 'rained'], ans: 'is going to', exp: 'Prediksi berdasarkan bukti fisik di depan mata ("thick black clouds") memakai "be going to + V1".', hint: 'S + am/is/are + going to + V1', spoken: 'Look at those thick black clouds! It is going to rain very soon.' },
+      { id: 'b14', tenseId: 'simple_future', tenseName: 'Simple Future Tense', level: 'beginner', type: 'spot', inst: 'Ketuk bagian yang salah pada kalimat janji masa depan berikut.', prompt: 'I will send you the notes as soon as I will arrive home.', options: ['will send', 'the notes', 'as soon as', 'will arrive'], ans: 'will arrive', exp: 'Di dalam anak kalimat waktu setelah "as soon as / when / before", gunakan Simple Present: "I arrive home".', hint: 'Main clause (will) + as soon as + Simple Present', spoken: 'I will send you the notes as soon as I arrive home.' },
+      { id: 'b15', tenseId: 'simple_future', tenseName: 'Simple Future Tense', level: 'beginner', type: 'builder', inst: 'Susun kata berikut menjadi kalimat nominal Simple Future yang benar.', prompt: 'Terjemahan: Presentasinya akan siap besok pagi.', bank: ['ready', 'will', 'tomorrow morning', 'The presentation', 'be'], ans: 'The presentation will be ready tomorrow morning', exp: 'Karena "ready" adalah kata sifat, kalimat Simple Future wajib menyertakan "be" setelah "will".', hint: 'S + will + be + Adjective', spoken: 'The presentation will be ready tomorrow morning.' },
+
+      // INTERMEDIATE (15)
+      { id: 'i1', tenseId: 'present_perfect', tenseName: 'Present Perfect Tense', level: 'intermediate', type: 'mc', inst: 'Pilih bentuk kata kerja tepat untuk pengalaman hingga saat ini.', prompt: 'Nadia _____ three international design awards so far.', options: ['won', 'has won', 'is winning', 'have won'], ans: 'has won', exp: '"So far" (sejauh ini) menandakan pencapaian hingga masa sekarang. Subjek tunggal "Nadia" memakai "has won".', hint: 'S (He/She/It) + has + V3', spoken: 'Nadia has won three international design awards so far.' },
+      { id: 'i2', tenseId: 'present_perfect', tenseName: 'Present Perfect Tense', level: 'intermediate', type: 'spot', inst: 'Identifikasi bagian yang melanggar aturan Present Perfect vs Simple Past.', prompt: 'We have visited our grandparents in Surabaya last weekend.', options: ['We', 'have visited', 'our grandparents', 'last weekend'], ans: 'have visited', exp: 'Ada keterangan waktu lampau spesifik ("last weekend"), sehingga wajib Simple Past: "We visited".', hint: 'Waktu lampau spesifik → Simple Past (V2)', spoken: 'We visited our grandparents in Surabaya last weekend.' },
+      { id: 'i3', tenseId: 'present_perfect', tenseName: 'Present Perfect Tense', level: 'intermediate', type: 'builder', inst: 'Susun kata berikut menjadi kalimat tanya pengalaman hidup yang tepat.', prompt: 'Terjemahan: Pernahkah kamu mencoba menyelam di Raja Ampat?', bank: ['ever', 'diving', 'Have', 'in Raja Ampat', 'tried', 'you'], ans: 'Have you ever tried diving in Raja Ampat', exp: 'Untuk menanyakan pengalaman hidup: Have/Has + S + ever + V3 + O?', hint: 'Have + S + ever + V3?', spoken: 'Have you ever tried diving in Raja Ampat?' },
+
+      { id: 'i4', tenseId: 'present_perfect_continuous', tenseName: 'Present Perfect Continuous', level: 'intermediate', type: 'mc', inst: 'Lengkapi kalimat yang menekankan durasi dari pagi hingga sekarang.', prompt: 'Look at the flooded street! It _____ heavily since early this morning.', options: ['is raining', 'rained', 'has been raining', 'was raining'], ans: 'has been raining', exp: 'Durasi sejak titik lampau hingga kini ("since early this morning") + bukti fisik memakai Present Perfect Continuous.', hint: 'S + has/have + been + V-ing + since ...', spoken: 'Look at the flooded street! It has been raining heavily since early this morning.' },
+      { id: 'i5', tenseId: 'present_perfect_continuous', tenseName: 'Present Perfect Continuous', level: 'intermediate', type: 'spot', inst: 'Temukan kesalahan penggunaan tense pada kalimat durasi berikut.', prompt: 'I am learning English grammar at this institute for two years.', options: ['I', 'am learning', 'at this institute', 'for two years'], ans: 'am learning', exp: 'Present Continuous tidak boleh dipasangkan dengan durasi "for two years". Seharusnya: "have been learning".', hint: 'Durasi "for ..." hingga kini → have/has been + V-ing', spoken: 'I have been learning English grammar at this institute for two years.' },
+      { id: 'i6', tenseId: 'present_perfect_continuous', tenseName: 'Present Perfect Continuous', level: 'intermediate', type: 'builder', inst: 'Susun pertanyaan mengenai lamanya durasi aktivitas.', prompt: 'Terjemahan: Sudah berapa lama mereka bekerja di proyek ini?', bank: ['working', 'been', 'How long', 'on this project', 'they', 'have'], ans: 'How long have they been working on this project', exp: 'Pola pertanyaan durasi Present Perfect Continuous: How long + have/has + S + been + V-ing?', hint: 'How long + have + S + been + V-ing?', spoken: 'How long have they been working on this project?' },
+
+      { id: 'i7', tenseId: 'past_perfect', tenseName: 'Past Perfect Tense', level: 'intermediate', type: 'mc', inst: 'Pilih bentuk kata kerja untuk kejadian yang lebih dulu selesai di masa lalu.', prompt: 'By the time we reached the airport, the plane _____.', options: ['already took off', 'had already taken off', 'has already taken off', 'was taking off'], ans: 'had already taken off', exp: 'Pesawat lepas landas LEBIH DULU sebelum kami tiba ("reached" = V2) → Past Perfect: "had already taken off".', hint: 'By the time + S + V2, S + had + V3', spoken: 'By the time we reached the airport, the plane had already taken off.' },
+      { id: 'i8', tenseId: 'past_perfect', tenseName: 'Past Perfect Tense', level: 'intermediate', type: 'spot', inst: 'Temukan kesalahan bentuk kata kerja dalam kalimat Past Perfect berikut.', prompt: 'She realized that she had forgot her passport at home.', options: ['realized', 'that', 'had forgot', 'at home'], ans: 'had forgot', exp: 'Setelah "had", wajib V3 (Past Participle). V3 dari "forget" adalah "forgotten" → "had forgotten".', hint: 'S + had + V3 (forget → forgot → forgotten)', spoken: 'She realized that she had forgotten her passport at home.' },
+      { id: 'i9', tenseId: 'past_perfect', tenseName: 'Past Perfect Tense', level: 'intermediate', type: 'builder', inst: 'Susun kalimat urutan dua peristiwa di masa lalu berikut.', prompt: 'Terjemahan: Dia belum pernah melihat salju sebelum tahun 2022.', bank: ['seen', 'before 2022', 'He', 'never', 'snow', 'had'], ans: 'He had never seen snow before 2022', exp: 'Pengalaman hingga titik tertentu di masa lalu ("before 2022") memakai Past Perfect: S + had + never + V3.', hint: 'S + had + never + V3 + before ...', spoken: 'He had never seen snow before 2022.' },
+
+      { id: 'i10', tenseId: 'future_continuous', tenseName: 'Future Continuous Tense', level: 'intermediate', type: 'mc', inst: 'Lengkapi kalimat untuk aktivitas yang akan sedang terjadi pada jam spesifik besok.', prompt: "Don't call me at 10 AM tomorrow because I _____ an important exam.", options: ['will take', 'will be taking', 'am taking', 'will have taken'], ans: 'will be taking', exp: 'Titik jam spesifik ("at 10 AM") + masa depan ("tomorrow") → Future Continuous: "will be taking".', hint: 'S + will + be + V-ing (at 10 AM tomorrow)', spoken: "Don't call me at 10 AM tomorrow because I will be taking an important exam." },
+      { id: 'i11', tenseId: 'future_continuous', tenseName: 'Future Continuous Tense', level: 'intermediate', type: 'spot', inst: 'Ketuk bagian yang salah pada kalimat tanya sopan berikut.', prompt: 'Will be you using your tablet during the flight tonight?', options: ['Will be you', 'using', 'your tablet', 'tonight'], ans: 'Will be you', exp: 'Dalam kalimat tanya Future Continuous, subjek diletakkan di antara "Will" dan "be" → "Will you be".', hint: 'Will + S + be + V-ing?', spoken: 'Will you be using your tablet during the flight tonight?' },
+      { id: 'i12', tenseId: 'future_continuous', tenseName: 'Future Continuous Tense', level: 'intermediate', type: 'builder', inst: 'Susun kata berikut menjadi kalimat Future Continuous yang benar.', prompt: 'Terjemahan: Jam segini besok kami akan sedang terbang ke Tokyo.', bank: ['will', 'flying', 'This time tomorrow', 'be', 'to Tokyo', 'we'], ans: 'This time tomorrow we will be flying to Tokyo', exp: 'Frasa "This time tomorrow" sangat khas untuk Future Continuous: S + will + be + V-ing.', hint: 'This time tomorrow + S + will + be + V-ing', spoken: 'This time tomorrow we will be flying to Tokyo.' },
+
+      { id: 'i13', tenseId: 'simple_past_future', tenseName: 'Simple Past Future Tense', level: 'intermediate', type: 'mc', inst: 'Lengkapi kalimat pengandaian (Conditional Sentence Tipe 2) berikut.', prompt: 'If I spoke fluent Japanese, I _____ for that scholarship in Kyoto.', options: ['will apply', 'would apply', 'applied', 'would applied'], ans: 'would apply', exp: 'Klausa "If" memakai Simple Past ("spoke") → Conditional Tipe 2. Induk kalimat memakai "would + V1" (would apply).', hint: 'If + S + V2, S + would + V1', spoken: 'If I spoke fluent Japanese, I would apply for that scholarship in Kyoto.' },
+      { id: 'i14', tenseId: 'simple_past_future', tenseName: 'Simple Past Future Tense', level: 'intermediate', type: 'spot', inst: 'Temukan kesalahan pada kalimat tidak langsung (Reported Speech) ini.', prompt: 'Dimas promised me that he will finish the prototype by Friday.', options: ['promised', 'that', 'will finish', 'by Friday'], ans: 'will finish', exp: 'Kata kerja pelapor lampau ("promised") menggeser "will" menjadi "would" → "would finish".', hint: 'S + V2 (said/promised) + that + S + would + V1', spoken: 'Dimas promised me that he would finish the prototype by Friday.' },
+      { id: 'i15', tenseId: 'simple_past_future', tenseName: 'Simple Past Future Tense', level: 'intermediate', type: 'builder', inst: 'Susun kata berikut menjadi kalimat rencana lampau yang batal.', prompt: 'Terjemahan: Aku tadinya akan meneleponmu tetapi bateraiku habis.', bank: ['going to', 'but', 'call you', 'I', 'my battery died', 'was'], ans: 'I was going to call you but my battery died', exp: 'Untuk menyatakan niat di masa lalu yang batal, gunakan: S + was/were + going to + V1.', hint: 'S + was/were + going to + V1', spoken: 'I was going to call you but my battery died.' },
+
+      // ADVANCED (18)
+      { id: 'a1', tenseId: 'past_perfect_continuous', tenseName: 'Past Perfect Continuous', level: 'advanced', type: 'mc', inst: 'Pilih tense yang tepat untuk durasi sebelum kejadian lampau lainnya.', prompt: 'They _____ for nearly three hours before the rescue team finally arrived.', options: ['were hiking', 'had been hiking', 'have been hiking', 'had hiked'], ans: 'had been hiking', exp: 'Durasi berkelanjutan ("for nearly three hours") SEBELUM titik lampau kedua ("arrived") → "had been hiking".', hint: 'S + had + been + V-ing + for ... before + V2', spoken: 'They had been hiking for nearly three hours before the rescue team finally arrived.' },
+      { id: 'a2', tenseId: 'past_perfect_continuous', tenseName: 'Past Perfect Continuous', level: 'advanced', type: 'spot', inst: 'Identifikasi kesalahan gramatikal pada kalimat sebab-akibat lampau berikut.', prompt: 'Her eyes were tired because she was staring at the monitor all night.', options: ['were tired', 'because', 'was staring', 'all night'], ans: 'was staring', exp: 'Aktivitas terus-menerus ("all night") yang menyebabkan kondisi lampau ("were tired") memakai Past Perfect Continuous: "had been staring".', hint: 'Kondisi lampau + because + S + had been + V-ing', spoken: 'Her eyes were tired because she had been staring at the monitor all night.' },
+      { id: 'a3', tenseId: 'past_perfect_continuous', tenseName: 'Past Perfect Continuous', level: 'advanced', type: 'builder', inst: 'Susun pertanyaan tentang durasi sebelum peristiwa di masa lalu.', prompt: 'Terjemahan: Sudah berapa lama dia menunggu sebelum bus datang?', bank: ['been waiting', 'before', 'had', 'How long', 'she', 'the bus came'], ans: 'How long had she been waiting before the bus came', exp: 'Pola tanya Past Perfect Continuous: How long + had + S + been + V-ing + before + Simple Past?', hint: 'How long + had + S + been + V-ing?', spoken: 'How long had she been waiting before the bus came?' },
+
+      { id: 'a4', tenseId: 'future_perfect', tenseName: 'Future Perfect Tense', level: 'advanced', type: 'mc', inst: 'Pilih bentuk kata kerja tepat untuk target yang selesai sebelum tenggat waktu.', prompt: 'By the end of this year, the architect _____ the new cultural center.', options: ['will complete', 'will have completed', 'will be completing', 'has completed'], ans: 'will have completed', exp: '"By the end of this year" menandakan pekerjaan akan SUDAH selesai menjelang titik tersebut → "will have completed".', hint: 'By + waktu masa depan, S + will + have + V3', spoken: 'By the end of this year, the architect will have completed the new cultural center.' },
+      { id: 'a5', tenseId: 'future_perfect', tenseName: 'Future Perfect Tense', level: 'advanced', type: 'spot', inst: 'Temukan kesalahan struktur auxiliary pada kalimat Future Perfect ini.', prompt: 'By next Monday, Elena will has submitted all her final reports.', options: ['By next Monday', 'will has', 'submitted', 'final reports'], ans: 'will has', exp: 'Setelah modal "will", auxiliary selalu bentuk dasar "have" untuk semua subjek → "will have".', hint: 'S (semua subjek) + will + have + V3', spoken: 'By next Monday, Elena will have submitted all her final reports.' },
+      { id: 'a6', tenseId: 'future_perfect', tenseName: 'Future Perfect Tense', level: 'advanced', type: 'builder', inst: 'Susun kata berikut menjadi kalimat Future Perfect yang benar.', prompt: 'Terjemahan: Menjelang jam 9 malam, kami akan sudah menyelesaikan tugas ini.', bank: ['will', 'this task', 'By 9 PM', 'have', 'finished', 'we'], ans: 'By 9 PM we will have finished this task', exp: 'Struktur Future Perfect: By + batas waktu + S + will + have + V3.', hint: 'By ... + S + will + have + V3', spoken: 'By 9 PM we will have finished this task.' },
+
+      { id: 'a7', tenseId: 'future_perfect_continuous', tenseName: 'Future Perfect Continuous', level: 'advanced', type: 'mc', inst: 'Pilih bentuk tense untuk total durasi aktivitas hingga titik masa depan.', prompt: 'By next July, Dr. Arman _____ at this hospital for twenty years.', options: ['will work', 'will be working', 'will have been working', 'has been working'], ans: 'will have been working', exp: 'Dua sinyal kuat: patokan masa depan ("By next July") + durasi ("for twenty years") → "will have been working".', hint: 'By + masa depan + S + will + have + been + V-ing + for ...', spoken: 'By next July, Dr. Arman will have been working at this hospital for twenty years.' },
+      { id: 'a8', tenseId: 'future_perfect_continuous', tenseName: 'Future Perfect Continuous', level: 'advanced', type: 'spot', inst: 'Temukan kata kerja statis yang keliru dipakai dalam bentuk continuous.', prompt: 'By 2028, we will have been knowing each other for fifteen years.', options: ['By 2028', 'will have been knowing', 'each other', 'for fifteen years'], ans: 'will have been knowing', exp: '"Know" adalah stative verb. Gunakan Future Perfect biasa: "will have known".', hint: 'Stative verb + by ... for ... → will have + V3', spoken: 'By 2028, we will have known each other for fifteen years.' },
+      { id: 'a9', tenseId: 'future_perfect_continuous', tenseName: 'Future Perfect Continuous', level: 'advanced', type: 'builder', inst: 'Susun rangkaian Future Perfect Continuous yang tepat.', prompt: 'Terjemahan: Menjelang siang dia akan sudah belajar selama empat jam.', bank: ['have been', 'for four hours', 'By noon', 'will', 'studying', 'she'], ans: 'By noon she will have been studying for four hours', exp: 'Urutan wajib Future Perfect Continuous: S + will + have + been + V-ing.', hint: 'S + will + have + been + V-ing', spoken: 'By noon she will have been studying for four hours.' },
+
+      { id: 'a10', tenseId: 'past_future_continuous', tenseName: 'Past Future Continuous', level: 'advanced', type: 'mc', inst: 'Pilih jawaban tepat untuk Reported Speech dari Future Continuous.', prompt: 'Bintang told us that he _____ a workshop in Bandung at 2 PM the next day.', options: ['will be leading', 'would be leading', 'would lead', 'was led'], ans: 'would be leading', exp: 'Kata kerja pelapor lampau ("told") mengubah Future Continuous menjadi Past Future Continuous ("would be leading").', hint: 'S + told/said + that + S + would + be + V-ing', spoken: 'Bintang told us that he would be leading a workshop in Bandung at 2 PM the next day.' },
+      { id: 'a11', tenseId: 'past_future_continuous', tenseName: 'Past Future Continuous', level: 'advanced', type: 'mc', inst: 'Lengkapi pengandaian aktivitas yang seharusnya sedang terjadi sekarang.', prompt: "If we hadn't missed the ferry, we _____ sunset on the island right now.", options: ['would watch', 'would be watching', 'will be watching', 'had watched'], ans: 'would be watching', exp: 'Mixed Conditional yang membayangkan aktivitas sedang berlangsung "right now" memakai "would be watching".', hint: 'If + Past Perfect, S + would + be + V-ing (right now)', spoken: "If we hadn't missed the ferry, we would be watching sunset on the island right now." },
+      { id: 'a12', tenseId: 'past_future_continuous', tenseName: 'Past Future Continuous', level: 'advanced', type: 'spot', inst: 'Ketuk bagian kalimat yang kurang lengkap strukturnya.', prompt: 'She mentioned that she would working remotely throughout November.', options: ['mentioned', 'would working', 'remotely', 'throughout November'], ans: 'would working', exp: 'Struktur Past Future Continuous membutuhkan "be" sebelum V-ing → "would be working".', hint: 'S + would + be + V-ing', spoken: 'She mentioned that she would be working remotely throughout November.' },
+
+      { id: 'a13', tenseId: 'past_future_perfect', tenseName: 'Past Future Perfect Tense', level: 'advanced', type: 'mc', inst: 'Lengkapi Conditional Sentence Tipe 3 tentang penyesalan masa lalu ini.', prompt: 'If you had checked the schedule carefully, you _____ the train.', options: ['would not miss', 'would not have missed', 'will not have missed', 'did not miss'], ans: 'would not have missed', exp: 'Klausa "If" memakai Past Perfect ("had checked") → Conditional Tipe 3. Induk kalimat wajib "would not have missed".', hint: 'If + S + had + V3, S + would + (not) + have + V3', spoken: 'If you had checked the schedule carefully, you would not have missed the train.' },
+      { id: 'a14', tenseId: 'past_future_perfect', tenseName: 'Past Future Perfect Tense', level: 'advanced', type: 'spot', inst: 'Temukan kesalahan umum pada kalimat pengandaian Tipe 3 berikut.', prompt: 'If I would have known about the delay, I would have stayed at home.', options: ['If I', 'would have known', 'about the delay', 'would have stayed'], ans: 'would have known', exp: 'Jangan pernah menaruh "would have" di dalam klausa "If"! Seharusnya Past Perfect: "If I had known".', hint: 'Klausa If: had + V3 | Induk kalimat: would have + V3', spoken: 'If I had known about the delay, I would have stayed at home.' },
+      { id: 'a15', tenseId: 'past_future_perfect', tenseName: 'Past Future Perfect Tense', level: 'advanced', type: 'builder', inst: 'Susun kalimat Past Future Perfect yang benar.', prompt: 'Terjemahan: Dia pasti sudah memenangkan lomba itu dengan persiapan lebih.', bank: ['won', 'would', 'with more preparation', 'She', 'the contest', 'have'], ans: 'She would have won the contest with more preparation', exp: 'Struktur Past Future Perfect: S + would + have + V3 (win → won).', hint: 'S + would + have + V3', spoken: 'She would have won the contest with more preparation.' },
+
+      { id: 'a16', tenseId: 'past_future_perfect_continuous', tenseName: 'Past Future Perfect Continuous', level: 'advanced', type: 'mc', inst: 'Pilih rangkaian paling tepat untuk durasi hipotetis di masa lampau.', prompt: "If he hadn't moved abroad, he _____ at this studio for ten years by last May.", options: ['would work', 'would have worked', 'would have been working', 'will have been working'], ans: 'would have been working', exp: 'Pengandaian masa lalu + durasi ("for ten years") + patokan lampau ("by last May") → "would have been working".', hint: 'S + would + have + been + V-ing', spoken: "If he hadn't moved abroad, he would have been working at this studio for ten years by last May." },
+      { id: 'a17', tenseId: 'past_future_perfect_continuous', tenseName: 'Past Future Perfect Continuous', level: 'advanced', type: 'spot', inst: 'Temukan kata yang salah pada rangkaian auxiliary berikut.', prompt: 'By last week, they would have being practicing the dance for two months.', options: ['By last week', 'would have being', 'practicing', 'for two months'], ans: 'would have being', exp: 'Setelah "have", bentuk V3 dari "be" adalah "been", bukan "being" → "would have been".', hint: 'would + have + been (V3) + V-ing', spoken: 'By last week, they would have been practicing the dance for two months.' },
+      { id: 'a18', tenseId: 'past_future_perfect_continuous', tenseName: 'Past Future Perfect Continuous', level: 'advanced', type: 'builder', inst: 'Susun struktur lengkap Past Future Perfect Continuous berikut.', prompt: 'Terjemahan: Kami akan sudah belajar selama tiga jam saat itu.', bank: ['been', 'studying', 'by then', 'We', 'for three hours', 'would have'], ans: 'We would have been studying for three hours by then', exp: 'Urutan 4 komponen utama: would + have + been + V-ing + durasi + patokan waktu.', hint: 'S + would + have + been + V-ing', spoken: 'We would have been studying for three hours by then.' }
+    ];
+
+    // =========================================================================
+    // 2. STATE & LOCALSTORAGE PERSISTENCE
+    // =========================================================================
+    const STORAGE_KEY = 'tensemaster_pwa_state_v1';
+
+    function loadProgress() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) return JSON.parse(raw);
+      } catch (e) {}
+      return {
+        completed: [],
+        bookmarks: [],
+        lastTenseId: 'simple_present',
+        bestScores: { beginner: 0, intermediate: 0, advanced: 0, mixed: 0 },
+        totalQuizzes: 0,
+        theme: window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+      };
+    }
+
+    const appState = {
+      route: 'home', // 'home' | 'learn' | 'practice' | 'reference' | 'detail' | 'quiz'
+      prevRoute: 'home',
+      detailTenseId: 'simple_present',
+      detailTab: 0,
+      refTab: 0,
+      search: '',
+      catFilter: null,
+      levelFilter: null,
+      progress: loadProgress(),
+      quiz: null
+    };
+
+    function saveProgress() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState.progress));
+      } catch (e) {}
+    }
+
+    // =========================================================================
+    // 3. UTILITIES (SAFE HTML ESCAPING, SPEECH SYNTHESIS, SVG TIMELINES)
+    // =========================================================================
+    function esc(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function speakText(text) {
+      if (!('speechSynthesis' in window) || !text) return;
+      try {
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.lang = 'en-US';
+        utter.rate = 0.92;
+        window.speechSynthesis.speak(utter);
+      } catch (e) {}
+    }
+
+    function catColorVar(cat) {
+      return cat === 'present' ? 'var(--present)' :
+             cat === 'past' ? 'var(--past)' :
+             cat === 'future' ? 'var(--future)' : 'var(--past-future)';
+    }
+
+    function catBgVar(cat) {
+      return cat === 'present' ? 'var(--present-bg)' :
+             cat === 'past' ? 'var(--past-bg)' :
+             cat === 'future' ? 'var(--future-bg)' : 'var(--past-future-bg)';
+    }
+
+    function levelMeta(levelId) {
+      return LEVELS.find(l => l.id === levelId) || LEVELS[0];
+    }
+
+    function shuffle(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function buildWavePath(x1, x2, cy, amp) {
+      let d = '';
+      const steps = 32;
+      for (let i = 0; i <= steps; i++) {
+        const t = i / steps;
+        const x = x1 + (x2 - x1) * t;
+        const y = cy + Math.sin(t * 4 * Math.PI) * amp;
+        d += (i === 0 ? 'M' : 'L') + x.toFixed(1) + ' ' + y.toFixed(1) + ' ';
+      }
+      return d;
+    }
+
+    function renderTimelineSVG(tenseId, cat) {
+      const accent = catColorVar(cat);
+      const bg = catBgVar(cat);
+      const cy = 46;
+      let shapes = '';
+      switch (tenseId) {
+        case 'simple_present':
+          [66, 114, 160, 206, 254].forEach(x => {
+            shapes += `<circle cx="${x}" cy="${cy}" r="10" fill="${bg}"/><circle cx="${x}" cy="${cy}" r="5.5" fill="${accent}"/>`;
+          });
+          break;
+        case 'present_continuous':
+          shapes += `<path d="${buildWavePath(118, 202, cy, 10)}" fill="none" stroke="${accent}" stroke-width="3.5" stroke-linecap="round"/>`;
+          shapes += `<circle cx="160" cy="${cy}" r="6.5" fill="${accent}"/>`;
+          break;
+        case 'present_perfect':
+          shapes += `<path d="M 88 ${cy} Q 124 12 160 ${cy}" fill="none" stroke="${accent}" stroke-width="3.2" stroke-linecap="round"/>`;
+          shapes += `<circle cx="88" cy="${cy}" r="9" fill="${bg}"/><circle cx="88" cy="${cy}" r="5.5" fill="${accent}"/>`;
+          shapes += `<circle cx="160" cy="${cy}" r="7" fill="${accent}"/>`;
+          break;
+        case 'present_perfect_continuous':
+          shapes += `<path d="${buildWavePath(84, 160, cy, 9.5)}" fill="none" stroke="${accent}" stroke-width="3.5" stroke-linecap="round"/>`;
+          shapes += `<circle cx="84" cy="${cy}" r="6" fill="${accent}"/><circle cx="160" cy="${cy}" r="7.5" fill="${accent}"/>`;
+          break;
+        case 'simple_past':
+          shapes += `<circle cx="90" cy="${cy}" r="12" fill="${bg}"/><circle cx="90" cy="${cy}" r="6.5" fill="${accent}"/>`;
+          break;
+        case 'past_continuous':
+          shapes += `<path d="${buildWavePath(54, 126, cy, 10)}" fill="none" stroke="${accent}" stroke-width="3.5" stroke-linecap="round"/>`;
+          shapes += `<line x1="90" y1="${cy - 18}" x2="90" y2="${cy + 18}" stroke="var(--primary)" stroke-width="3" stroke-linecap="round"/>`;
+          shapes += `<circle cx="90" cy="${cy}" r="5" fill="var(--primary)"/>`;
+          break;
+        case 'past_perfect':
+          shapes += `<path d="M 56 ${cy} Q 90 12 124 ${cy}" fill="none" stroke="${accent}" stroke-width="3.2" stroke-linecap="round"/>`;
+          shapes += `<circle cx="56" cy="${cy}" r="6.5" fill="${accent}"/><circle cx="124" cy="${cy}" r="5.5" fill="var(--muted)"/>`;
+          break;
+        case 'past_perfect_continuous':
+          shapes += `<path d="${buildWavePath(54, 124, cy, 9.5)}" fill="none" stroke="${accent}" stroke-width="3.5" stroke-linecap="round"/>`;
+          shapes += `<circle cx="54" cy="${cy}" r="5.5" fill="${accent}"/><circle cx="124" cy="${cy}" r="6.5" fill="var(--primary)"/>`;
+          break;
+        case 'simple_future':
+          shapes += `<circle cx="230" cy="${cy}" r="12" fill="${bg}"/><circle cx="230" cy="${cy}" r="6.5" fill="${accent}"/>`;
+          break;
+        case 'future_continuous':
+          shapes += `<path d="${buildWavePath(194, 268, cy, 10)}" fill="none" stroke="${accent}" stroke-width="3.5" stroke-linecap="round"/>`;
+          shapes += `<circle cx="231" cy="${cy}" r="6" fill="${accent}"/>`;
+          break;
+        case 'future_perfect':
+          shapes += `<path d="M 192 ${cy} Q 229 12 266 ${cy}" fill="none" stroke="${accent}" stroke-width="3.2" stroke-linecap="round"/>`;
+          shapes += `<circle cx="192" cy="${cy}" r="6" fill="${accent}"/><line x1="266" y1="${cy - 17}" x2="266" y2="${cy + 17}" stroke="${accent}" stroke-width="3.2" stroke-linecap="round"/>`;
+          break;
+        case 'future_perfect_continuous':
+          shapes += `<path d="${buildWavePath(140, 266, cy, 9.5)}" fill="none" stroke="${accent}" stroke-width="3.5" stroke-linecap="round"/>`;
+          shapes += `<line x1="266" y1="${cy - 17}" x2="266" y2="${cy + 17}" stroke="${accent}" stroke-width="3.2" stroke-linecap="round"/>`;
+          break;
+        case 'simple_past_future':
+          shapes += `<path d="M 58 ${cy} Q 96 12 134 ${cy}" fill="none" stroke="${accent}" stroke-width="3" stroke-dasharray="6 5" stroke-linecap="round"/>`;
+          shapes += `<circle cx="58" cy="${cy}" r="6" fill="${accent}"/><circle cx="134" cy="${cy}" r="7" fill="none" stroke="${accent}" stroke-width="2.5"/>`;
+          break;
+        case 'past_future_continuous':
+          shapes += `<path d="M 54 ${cy} Q 86 14 118 ${cy}" fill="none" stroke="${accent}" stroke-width="3" stroke-dasharray="6 5"/>`;
+          shapes += `<path d="${buildWavePath(106, 148, cy, 9)}" fill="none" stroke="${accent}" stroke-width="3" opacity="0.8"/>`;
+          shapes += `<circle cx="54" cy="${cy}" r="5.5" fill="${accent}"/>`;
+          break;
+        case 'past_future_perfect':
+          shapes += `<path d="M 56 ${cy} Q 92 10 128 ${cy}" fill="none" stroke="${accent}" stroke-width="3.2" stroke-dasharray="6 5"/>`;
+          shapes += `<circle cx="56" cy="${cy}" r="6" fill="${accent}"/><circle cx="128" cy="${cy}" r="7.5" fill="none" stroke="${accent}" stroke-width="2.8"/>`;
+          break;
+        default:
+          shapes += `<path d="${buildWavePath(56, 128, cy, 9)}" fill="none" stroke="${accent}" stroke-width="3" opacity="0.75"/>`;
+          shapes += `<path d="M 56 ${cy} Q 92 10 128 ${cy}" fill="none" stroke="${accent}" stroke-width="3" stroke-dasharray="6 5"/>`;
+          shapes += `<circle cx="56" cy="${cy}" r="5.5" fill="${accent}"/><circle cx="128" cy="${cy}" r="7" fill="none" stroke="${accent}" stroke-width="2.6"/>`;
+          break;
+      }
+
+      return `
+        <svg viewBox="0 0 320 76" width="100%" height="76" role="img" aria-label="Diagram garis waktu">
+          <line x1="18" y1="${cy}" x2="302" y2="${cy}" stroke="var(--outline)" stroke-width="2.5" stroke-linecap="round"/>
+          <polyline points="294,${cy - 6} 302,${cy} 294,${cy + 6}" fill="none" stroke="var(--outline)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <line x1="160" y1="8" x2="160" y2="68" stroke="var(--primary)" stroke-width="2" stroke-dasharray="5 4" opacity="0.55"/>
+          ${shapes}
+        </svg>
+      `;
+    }
+
+    function highlightSentenceHTML(sentence, highlight, cat) {
+      const idx = sentence.toLowerCase().indexOf(highlight.toLowerCase());
+      if (idx < 0) return esc(sentence);
+      const before = esc(sentence.slice(0, idx));
+      const match = esc(sentence.slice(idx, idx + highlight.length));
+      const after = esc(sentence.slice(idx + highlight.length));
+      return `${before}<span class="highlight-verb" style="color:${catColorVar(cat)};background:${catBgVar(cat)}">${match}</span>${after}`;
+    }
+
+    // =========================================================================
+    // 4. NAVIGATION & ACTIONS
+    // =========================================================================
+    function applyTheme() {
+      const dark = appState.progress.theme === 'dark';
+      document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+      document.getElementById('themeToggleBtn').textContent = dark ? '☀️' : '🌙';
+      document.getElementById('railThemeBtn').textContent = dark ? '☀️ Mode Terang' : '🌙 Mode Gelap';
+    }
+
+    function toggleTheme() {
+      appState.progress.theme = appState.progress.theme === 'dark' ? 'light' : 'dark';
+      saveProgress();
+      applyTheme();
+    }
+
+    function navigateTab(route) {
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+      appState.route = route;
+      appState.prevRoute = route;
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      render();
+    }
+
+    function openTense(tenseId) {
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+      if (appState.route !== 'detail') appState.prevRoute = appState.route;
+      appState.detailTenseId = tenseId;
+      appState.detailTab = 0;
+      appState.progress.lastTenseId = tenseId;
+      saveProgress();
+      appState.route = 'detail';
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      render();
+    }
+
+    function goBack() {
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+      appState.route = appState.prevRoute || 'home';
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      render();
+    }
+
+    function exploreCategory(cat) {
+      appState.catFilter = cat;
+      appState.levelFilter = null;
+      appState.search = '';
+      navigateTab('learn');
+    }
+
+    function exploreLevel(lvl) {
+      appState.levelFilter = lvl;
+      appState.catFilter = null;
+      appState.search = '';
+      navigateTab('learn');
+    }
+
+    function toggleBookmark(tenseId, evt) {
+      if (evt) evt.stopPropagation();
+      const idx = appState.progress.bookmarks.indexOf(tenseId);
+      if (idx >= 0) appState.progress.bookmarks.splice(idx, 1);
+      else appState.progress.bookmarks.push(tenseId);
+      saveProgress();
+      render();
+    }
+
+    function toggleCompleted(tenseId) {
+      const idx = appState.progress.completed.indexOf(tenseId);
+      if (idx >= 0) appState.progress.completed.splice(idx, 1);
+      else appState.progress.completed.push(tenseId);
+      saveProgress();
+      render();
+    }
+
+    // Quiz Engine Actions
+    function startQuiz(sessionKey, title, questions) {
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+      if (appState.route !== 'quiz') appState.prevRoute = appState.route;
+      appState.quiz = {
+        key: sessionKey,
+        title: title,
+        questions: shuffle(questions),
+        index: 0,
+        selected: null,
+        assembled: [],
+        checked: false,
+        isCorrect: false,
+        correctCount: 0,
+        streak: 0,
+        bestStreak: 0,
+        records: [],
+        finished: false
+      };
+      appState.route = 'quiz';
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      render();
+    }
+
+    function startLevelQuiz(levelId) {
+      const meta = levelMeta(levelId);
+      const qs = QUESTIONS.filter(q => q.level === levelId);
+      startQuiz(levelId, `Latihan Tingkat ${meta.label} (${meta.cefr})`, qs);
+    }
+
+    function startMixedQuiz() {
+      const b = shuffle(QUESTIONS.filter(q => q.level === 'beginner')).slice(0, 4);
+      const i = shuffle(QUESTIONS.filter(q => q.level === 'intermediate')).slice(0, 4);
+      const a = shuffle(QUESTIONS.filter(q => q.level === 'advanced')).slice(0, 4);
+      startQuiz('mixed', 'Tantangan Campuran 16 Tenses', [...b, ...i, ...a]);
+    }
+
+    function startTenseDrill(tenseId) {
+      const tense = TENSES.find(t => t.id === tenseId);
+      const qs = QUESTIONS.filter(q => q.tenseId === tenseId);
+      startQuiz(`tense_${tenseId}`, `Latihan: ${tense ? tense.name : tenseId}`, qs);
+    }
+
+    function selectQuizOption(optIdx) {
+      const q = appState.quiz;
+      if (!q || q.checked) return;
+      const cur = q.questions[q.index];
+      q.selected = cur.options[optIdx];
+      render();
+    }
+
+    function addBuilderWord(wordIdx) {
+      const q = appState.quiz;
+      if (!q || q.checked) return;
+      const cur = q.questions[q.index];
+      const remaining = [...cur.bank];
+      q.assembled.forEach(w => {
+        const i = remaining.indexOf(w);
+        if (i >= 0) remaining.splice(i, 1);
+      });
+      if (remaining[wordIdx] !== undefined) {
+        q.assembled.push(remaining[wordIdx]);
+        render();
+      }
+    }
+
+    function removeBuilderWord(idx) {
+      const q = appState.quiz;
+      if (!q || q.checked) return;
+      q.assembled.splice(idx, 1);
+      render();
+    }
+
+    function clearBuilderWords() {
+      const q = appState.quiz;
+      if (!q || q.checked) return;
+      q.assembled = [];
+      render();
+    }
+
+    function checkQuizAnswer() {
+      const q = appState.quiz;
+      if (!q || q.checked) return;
+      const cur = q.questions[q.index];
+      const userAns = cur.type === 'builder' ? q.assembled.join(' ').trim() : (q.selected || '').trim();
+      if (!userAns) return;
+      const ok = userAns.toLowerCase() === cur.ans.trim().toLowerCase();
+      q.checked = true;
+      q.isCorrect = ok;
+      if (ok) {
+        q.correctCount++;
+        q.streak++;
+        q.bestStreak = Math.max(q.bestStreak, q.streak);
+      } else {
+        q.streak = 0;
+      }
+      q.records.push({ question: cur, userAns, ok });
+      render();
+    }
+
+    function nextQuizQuestion() {
+      const q = appState.quiz;
+      if (!q || !q.checked) return;
+      if (q.index + 1 >= q.questions.length) {
+        q.finished = true;
+        const pct = Math.round((q.correctCount / q.questions.length) * 100);
+        appState.progress.totalQuizzes = (appState.progress.totalQuizzes || 0) + 1;
+        if (q.key in appState.progress.bestScores) {
+          appState.progress.bestScores[q.key] = Math.max(appState.progress.bestScores[q.key], pct);
+        }
+        saveProgress();
+      } else {
+        q.index++;
+        q.selected = null;
+        q.assembled = [];
+        q.checked = false;
+        q.isCorrect = false;
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      render();
+    }
+
+    function restartQuiz() {
+      if (!appState.quiz) return;
+      startQuiz(appState.quiz.key, appState.quiz.title, appState.quiz.questions);
+    }
+
+    // =========================================================================
+    // 5. RENDERERS
+    // =========================================================================
+    function renderTenseCard(t) {
+      const isDone = appState.progress.completed.includes(t.id);
+      const isSaved = appState.progress.bookmarks.includes(t.id);
+      const lvl = levelMeta(t.level);
+      const cat = TIME_CATEGORIES.find(c => c.id === t.category);
+      return `
+        <article class="tense-card" onclick="openTense('${t.id}')">
+          <div class="row-between" style="align-items:flex-start;">
+            <div class="row" style="flex:1;min-width:0;">
+              <div class="num-pill" style="background:${catBgVar(t.category)};color:${catColorVar(t.category)}">${String(t.number).padStart(2, '0')}</div>
+              <div style="min-width:0;">
+                <div style="font-weight:700;font-size:1rem;">${esc(t.name)}</div>
+                <div style="font-size:0.78rem;color:var(--muted);">${esc(t.idTitle)}</div>
+              </div>
+            </div>
+            <div class="row" style="gap:4px;">
+              ${isDone ? '<span title="Sudah dipahami" style="font-size:1.1rem;">✅</span>' : ''}
+              <button class="icon-btn" style="width:36px;height:36px;border-radius:10px;" onclick="toggleBookmark('${t.id}', event)" aria-label="Simpan favorit">
+                ${isSaved ? '⭐' : '☆'}
+              </button>
+            </div>
+          </div>
+          <p style="margin:10px 0 12px;font-size:0.86rem;color:var(--muted);">${esc(t.summary)}</p>
+          <div class="formula-box" style="color:${catColorVar(t.category)};margin-bottom:12px;">${esc(t.formula.vp)}</div>
+          <div class="row" style="flex-wrap:wrap;gap:6px;">
+            <span class="badge badge-${t.category}">${esc(cat.label)}</span>
+            <span class="badge badge-${t.level}">${esc(lvl.label)} · ${esc(lvl.cefr)}</span>
+            <span class="badge badge-neutral">${esc(t.aspect)}</span>
+          </div>
+        </article>
+      `;
+    }
+
+    function renderHome() {
+      const done = appState.progress.completed.length;
+      const pct = Math.round((done / TENSES.length) * 100);
+      const last = TENSES.find(t => t.id === appState.progress.lastTenseId) || TENSES[0];
+
+      const bentoHTML = TIME_CATEGORIES.map(c => {
+        const cDone = TENSES.filter(t => t.category === c.id && appState.progress.completed.includes(t.id)).length;
+        return `
+          <button class="bento-card" onclick="exploreCategory('${c.id}')">
+            <div class="row-between" style="margin-bottom:10px;">
+              <span class="num-pill" style="width:36px;height:36px;background:${catBgVar(c.id)};">${c.icon}</span>
+              <span style="font-size:0.8rem;font-weight:800;color:${catColorVar(c.id)}">${cDone}/4</span>
+            </div>
+            <div style="font-weight:800;font-size:0.98rem;">${esc(c.label)}</div>
+            <div style="font-size:0.76rem;color:var(--muted);">${esc(c.sub)}</div>
+          </button>
+        `;
+      }).join('');
+
+      const levelsHTML = LEVELS.map(lvl => {
+        const list = TENSES.filter(t => t.level === lvl.id);
+        const lDone = list.filter(t => appState.progress.completed.includes(t.id)).length;
+        const best = appState.progress.bestScores[lvl.id] || 0;
+        const colorVar = `var(--${lvl.id})`;
+        return `
+          <div class="card">
+            <div class="row-between" style="margin-bottom:8px;flex-wrap:wrap;">
+              <div class="row">
+                <strong style="font-size:1rem;">Tingkat ${esc(lvl.label)}</strong>
+                <span class="badge badge-${lvl.id}">${esc(lvl.cefr)}</span>
+              </div>
+              <span style="font-size:0.78rem;color:var(--muted);font-weight:600;">${lDone}/${list.length} materi · Skor: ${best}%</span>
+            </div>
+            <p style="margin:0 0 14px;font-size:0.85rem;color:var(--muted);">${esc(lvl.subtitle)}</p>
+            <div class="grid-2">
+              <button class="btn btn-tonal" onclick="exploreLevel('${lvl.id}')">📖 Materi</button>
+              <button class="btn" style="background:${colorVar};color:#fff;" onclick="startLevelQuiz('${lvl.id}')">🎯 Latihan</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      return `
+        <section class="hero-card">
+          <div class="hero-badge">✨ Kuasai 16 Tenses Bahasa Inggris</div>
+          <h2 class="hero-title">Belajar Struktur Waktu dengan Jelas &amp; Terarah</h2>
+          <p class="hero-desc">Penjelasan detail, diagram garis waktu visual, rumus verbal &amp; nominal, contoh kalimat beraudio, dan latihan soal interaktif offline.</p>
+        </section>
+
+        <section class="card">
+          <div class="row-between">
+            <div>
+              <div style="font-size:0.78rem;color:var(--muted);font-weight:600;">Progres Penguasaan</div>
+              <div style="font-family:var(--font-display);font-size:1.15rem;font-weight:800;">${done} dari ${TENSES.length} Tenses Dipahami</div>
+            </div>
+            <div class="num-pill" style="width:48px;height:48px;border-radius:50%;background:var(--primary-container);color:var(--on-primary-container);">${pct}%</div>
+          </div>
+          <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+          <div class="row">
+            <div class="stat-pill"><span>✅</span><div><small>Selesai</small><strong>${done} materi</strong></div></div>
+            <div class="stat-pill"><span>⚡</span><div><small>Latihan</small><strong>${appState.progress.totalQuizzes || 0} sesi</strong></div></div>
+          </div>
+        </section>
+
+        <section>
+          <h3 class="section-title">Lanjut Belajar</h3>
+          <div style="margin-top:10px;">${renderTenseCard(last)}</div>
+        </section>
+
+        <section>
+          <h3 class="section-title">Jelajahi 4 Kelompok Waktu</h3>
+          <div class="grid-2" style="margin-top:10px;">${bentoHTML}</div>
+        </section>
+
+        <section>
+          <h3 class="section-title">Jalur Belajar per Tingkatan</h3>
+          <div style="display:flex;flex-direction:column;gap:12px;margin-top:10px;">${levelsHTML}</div>
+        </section>
+
+        <section class="card" style="background:var(--primary);color:var(--on-primary);border:none;">
+          <div class="row-between" style="flex-wrap:wrap;gap:14px;">
+            <div style="flex:1;min-width:200px;">
+              <strong style="font-size:1.05rem;">🔀 Tantangan Campuran 16 Tenses</strong>
+              <p style="margin:4px 0 0;font-size:0.84rem;opacity:0.88;">Uji ketangkasanmu pada 12 soal acak dari tingkat Dasar hingga Mahir.</p>
+            </div>
+            <button class="btn btn-gold" onclick="startMixedQuiz()">Mulai Sekarang</button>
+          </div>
+        </section>
+      `;
+    }
+
+    function renderLearn() {
+      const q = appState.search.trim().toLowerCase();
+      const filtered = TENSES.filter(t => {
+        const matchCat = !appState.catFilter || t.category === appState.catFilter;
+        const matchLvl = !appState.levelFilter || t.level === appState.levelFilter;
+        const matchQ = !q || t.name.toLowerCase().includes(q) || t.idTitle.toLowerCase().includes(q) ||
+          t.summary.toLowerCase().includes(q) || t.formula.vp.toLowerCase().includes(q) ||
+          t.signals.some(s => s[0].toLowerCase().includes(q));
+        return matchCat && matchLvl && matchQ;
+      });
+
+      const hasFilters = !!(appState.search || appState.catFilter || appState.levelFilter);
+
+      return `
+        <div>
+          <h2 class="section-title" style="font-size:1.4rem;">Kurikulum 16 Tenses</h2>
+          <p class="section-sub">Pelajari penjelasan detail, rumus verbal &amp; nominal, serta contoh kalimat beraudio.</p>
+        </div>
+
+        <input
+          type="search"
+          class="search-input"
+          id="learnSearchInput"
+          placeholder="Cari tense, rumus, atau keterangan waktu..."
+          value="${esc(appState.search)}"
+          oninput="appState.search=this.value;renderLearnResults();"
+        />
+
+        <div class="chip-scroll">
+          <button class="chip ${!appState.catFilter ? 'active' : ''}" onclick="appState.catFilter=null;render();">Semua Waktu</button>
+          ${TIME_CATEGORIES.map(c => `
+            <button class="chip ${appState.catFilter === c.id ? 'active' : ''}" onclick="appState.catFilter=(appState.catFilter==='${c.id}'?null:'${c.id}');render();">${esc(c.label)}</button>
+          `).join('')}
+        </div>
+
+        <div class="chip-scroll">
+          ${LEVELS.map(l => `
+            <button class="chip ${appState.levelFilter === l.id ? 'active' : ''}" onclick="appState.levelFilter=(appState.levelFilter==='${l.id}'?null:'${l.id}');render();">${esc(l.label)} (${esc(l.cefr)})</button>
+          `).join('')}
+        </div>
+
+        <div class="row-between">
+          <span style="font-size:0.82rem;color:var(--muted);font-weight:600;" id="learnCountLabel">Menampilkan ${filtered.length} dari 16 tenses</span>
+          ${hasFilters ? '<button style="color:var(--primary);font-weight:700;font-size:0.82rem;" onclick="appState.search=\'\';appState.catFilter=null;appState.levelFilter=null;render();">Reset Filter</button>' : ''}
+        </div>
+
+        <div id="learnListWrap" style="display:flex;flex-direction:column;gap:12px;">
+          ${filtered.length ? filtered.map(renderTenseCard).join('') : `
+            <div class="empty-state card">
+              <div style="font-size:2.4rem;">🔍</div>
+              <h3 style="margin:8px 0 4px;color:var(--ink);">Materi Tidak Ditemukan</h3>
+              <p style="margin:0 0 14px;font-size:0.86rem;">Coba gunakan kata kunci lain seperti Simple, Perfect, atau kata keterangan waktu.</p>
+              <button class="btn btn-tonal" onclick="appState.search='';appState.catFilter=null;appState.levelFilter=null;render();">Tampilkan Semua 16 Tenses</button>
+            </div>
+          `}
+        </div>
+      `;
+    }
+
+    function renderLearnResults() {
+      const q = appState.search.trim().toLowerCase();
+      const filtered = TENSES.filter(t => {
+        const matchCat = !appState.catFilter || t.category === appState.catFilter;
+        const matchLvl = !appState.levelFilter || t.level === appState.levelFilter;
+        const matchQ = !q || t.name.toLowerCase().includes(q) || t.idTitle.toLowerCase().includes(q) ||
+          t.summary.toLowerCase().includes(q) || t.formula.vp.toLowerCase().includes(q) ||
+          t.signals.some(s => s[0].toLowerCase().includes(q));
+        return matchCat && matchLvl && matchQ;
+      });
+      const countEl = document.getElementById('learnCountLabel');
+      const wrapEl = document.getElementById('learnListWrap');
+      if (countEl) countEl.textContent = `Menampilkan ${filtered.length} dari 16 tenses`;
+      if (wrapEl) {
+        wrapEl.innerHTML = filtered.length ? filtered.map(renderTenseCard).join('') : `
+          <div class="empty-state card">
+            <div style="font-size:2.4rem;">🔍</div>
+            <h3 style="margin:8px 0 4px;color:var(--ink);">Materi Tidak Ditemukan</h3>
+            <p style="margin:0 0 14px;font-size:0.86rem;">Coba gunakan kata kunci lain seperti Simple, Perfect, atau kata keterangan waktu.</p>
+            <button class="btn btn-tonal" onclick="appState.search='';appState.catFilter=null;appState.levelFilter=null;render();">Tampilkan Semua 16 Tenses</button>
+          </div>
+        `;
+      }
+    }
+
+    function renderDetail() {
+      const t = TENSES.find(x => x.id === appState.detailTenseId) || TENSES[0];
+      const lvl = levelMeta(t.level);
+      const cat = TIME_CATEGORIES.find(c => c.id === t.category);
+      const isDone = appState.progress.completed.includes(t.id);
+      const isSaved = appState.progress.bookmarks.includes(t.id);
+      const accent = catColorVar(t.category);
+      const tab = appState.detailTab;
+
+      let tabHTML = '';
+      if (tab === 0) {
+        tabHTML = `
+          <div class="card">
+            <div style="font-weight:800;color:${accent};margin-bottom:8px;">Konsep &amp; Penjelasan Mendalam</div>
+            <p style="margin:0;font-size:0.94rem;">${esc(t.intro)}</p>
+          </div>
+
+          <h3 class="section-title">Fungsi &amp; Kegunaan Utama</h3>
+          ${t.usages.map((u, idx) => `
+            <div class="card">
+              <div class="row" style="margin-bottom:6px;">
+                <span class="num-pill" style="width:26px;height:26px;border-radius:50%;font-size:0.78rem;background:${catBgVar(t.category)};color:${accent};">${idx + 1}</span>
+                <strong style="font-size:0.95rem;">${esc(u.title)}</strong>
+              </div>
+              <p style="margin:0 0 10px;font-size:0.86rem;color:var(--muted);">${esc(u.desc)}</p>
+              <div class="row-between" style="background:var(--surface);padding:8px 10px 8px 12px;border-radius:12px;">
+                <span style="font-size:0.88rem;font-weight:600;">"${esc(u.ex)}"</span>
+                <button class="speak-btn" onclick="speakText(${esc(JSON.stringify(u.ex))})" aria-label="Dengarkan contoh">🔊</button>
+              </div>
+            </div>
+          `).join('')}
+
+          <h3 class="section-title">Penanda Waktu (Time Signals)</h3>
+          <div class="signals-grid">
+            ${t.signals.map(s => `
+              <div class="signal-chip">
+                <strong style="color:${accent};">${esc(s[0])}</strong>
+                <span>${esc(s[1])}</span>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      } else if (tab === 1) {
+        const fItem = (sym, label, text, color) => `
+          <div class="card" style="padding:14px;">
+            <div class="row">
+              <span class="num-pill" style="width:30px;height:30px;background:var(--surface);color:${color};">${sym}</span>
+              <div style="flex:1;min-width:0;">
+                <div style="font-size:0.74rem;color:var(--muted);font-weight:600;">${esc(label)}</div>
+                <div style="font-family:var(--font-mono);font-size:0.88rem;font-weight:700;margin-top:2px;">${esc(text)}</div>
+              </div>
+            </div>
+          </div>
+        `;
+        tabHTML = `
+          <h3 class="section-title">Rumus Kalimat Verbal (Dengan Kata Kerja)</h3>
+          ${fItem('+', 'Positif (Affirmative)', t.formula.vp, 'var(--success)')}
+          ${fItem('−', 'Negatif (Negative)', t.formula.vn, 'var(--error)')}
+          ${fItem('?', 'Tanya (Interrogative)', t.formula.vi, accent)}
+
+          <h3 class="section-title" style="margin-top:6px;">Rumus Kalimat Nominal (Tanpa Kata Kerja Aksi)</h3>
+          ${fItem('+', 'Nominal Positif', t.formula.np, 'var(--success)')}
+          ${fItem('−', 'Nominal Negatif', t.formula.nn, 'var(--error)')}
+          ${fItem('?', 'Nominal Tanya', t.formula.ni, accent)}
+
+          <div class="card">
+            <div style="font-weight:800;color:${accent};margin-bottom:10px;">Aturan Subjek &amp; Catatan Penting</div>
+            <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:8px;font-size:0.88rem;">
+              ${t.formula.rules.map(r => `<li>${esc(r)}</li>`).join('')}
+            </ul>
+          </div>
+        `;
+      } else if (tab === 2) {
+        tabHTML = `
+          <div>
+            <h3 class="section-title">Contoh Kalimat &amp; Pelafalan Audio</h3>
+            <p class="section-sub">Ketuk tombol 🔊 untuk mendengarkan pelafalan bahasa Inggris.</p>
+          </div>
+          ${t.examples.map(ex => {
+            const pLabel = ex.pol === '+' ? '+ Positif' : ex.pol === '-' ? '− Negatif' : '? Tanya';
+            const pStyle = ex.pol === '+' ? 'color:var(--success);background:var(--success-bg);' :
+                           ex.pol === '-' ? 'color:var(--error);background:var(--error-bg);' :
+                           `color:${accent};background:${catBgVar(t.category)};`;
+            return `
+              <div class="card">
+                <div class="row-between" style="margin-bottom:10px;">
+                  <div class="row" style="gap:6px;">
+                    <span class="badge" style="${pStyle}">${pLabel}</span>
+                    <span class="badge badge-neutral">${esc(ex.tag)}</span>
+                  </div>
+                  <button class="speak-btn" onclick="speakText(${esc(JSON.stringify(ex.en))})" aria-label="Dengarkan pengucapan">🔊</button>
+                </div>
+                <div style="font-size:1.02rem;font-weight:700;margin-bottom:6px;">${highlightSentenceHTML(ex.en, ex.hl, t.category)}</div>
+                <div style="font-size:0.86rem;color:var(--muted);">${esc(ex.id)}</div>
+              </div>
+            `;
+          }).join('')}
+        `;
+      } else {
+        tabHTML = `
+          <h3 class="section-title">Kesalahan Umum yang Sering Terjadi</h3>
+          ${t.mistakes.map(m => `
+            <div class="card" style="display:flex;flex-direction:column;gap:10px;">
+              <div class="mistake-bad">❌ ${esc(m.wrong)}</div>
+              <div class="mistake-good">✅ ${esc(m.right)}</div>
+              <p style="margin:0;font-size:0.86rem;color:var(--muted);">${esc(m.reason)}</p>
+            </div>
+          `).join('')}
+          <div class="tip-card">
+            <div style="font-weight:800;margin-bottom:4px;">💡 Tips Cepat Mengingat</div>
+            <p style="margin:0;font-size:0.9rem;">${esc(t.tip)}</p>
+          </div>
+        `;
+      }
+
+      return `
+        <section class="card" style="background:${catBgVar(t.category)};border-color:color-mix(in srgb, ${accent} 30%, transparent);">
+          <div class="row-between" style="margin-bottom:10px;">
+            <div class="row" style="flex-wrap:wrap;gap:6px;">
+              <span class="badge badge-${t.category}">${esc(cat.label)}</span>
+              <span class="badge badge-${t.level}">${esc(lvl.label)} · ${esc(lvl.cefr)}</span>
+              <span class="badge" style="background:var(--card);color:var(--ink);">${esc(t.aspect)}</span>
+            </div>
+            <button class="icon-btn" onclick="toggleBookmark('${t.id}')" aria-label="Simpan favorit">${isSaved ? '⭐' : '☆'}</button>
+          </div>
+          <h2 style="font-family:var(--font-display);font-size:1.45rem;margin:0 0 2px;">${esc(t.name)}</h2>
+          <div style="font-size:0.9rem;font-weight:700;color:${accent};margin-bottom:8px;">${esc(t.idTitle)}</div>
+          <p style="margin:0;font-size:0.88rem;">${esc(t.summary)}</p>
+        </section>
+
+        <section class="timeline-box">
+          <div style="font-size:0.78rem;font-weight:800;color:${accent};margin-bottom:6px;">Diagram Garis Waktu</div>
+          ${renderTimelineSVG(t.id, t.category)}
+          <div class="timeline-labels">
+            <span>LAMPAU (PAST)</span>
+            <span style="color:var(--primary);">SEKARANG (NOW)</span>
+            <span>MASA DEPAN</span>
+          </div>
+          <p style="margin:8px 0 0;font-size:0.8rem;color:var(--muted);">${esc(t.timelineCaption)}</p>
+        </section>
+
+        <div class="tabs-bar">
+          ${['Penjelasan', 'Rumus', 'Contoh', 'Tips & Kesalahan'].map((label, i) => `
+            <button class="seg-tab ${tab === i ? 'active' : ''}" onclick="appState.detailTab=${i};render();">${label}</button>
+          `).join('')}
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:14px;">${tabHTML}</div>
+
+        <section class="card">
+          <div style="font-weight:800;margin-bottom:12px;">Siap Menguji Pemahamanmu?</div>
+          <div class="grid-2">
+            <button class="btn btn-tonal" onclick="toggleCompleted('${t.id}')">${isDone ? '✅ Dipahami' : '☑️ Tandai Paham'}</button>
+            <button class="btn" style="background:${accent};color:#fff;" onclick="startTenseDrill('${t.id}')">🎯 Latihan Soal</button>
+          </div>
+        </section>
+      `;
+    }
+
+    function renderPracticeHub() {
+      const levelsHTML = LEVELS.map(lvl => {
+        const count = QUESTIONS.filter(q => q.level === lvl.id).length;
+        const best = appState.progress.bestScores[lvl.id] || 0;
+        const colorVar = `var(--${lvl.id})`;
+        return `
+          <div class="card">
+            <div class="row-between" style="margin-bottom:10px;">
+              <div class="row" style="gap:6px;">
+                <span class="badge badge-${lvl.id}">${esc(lvl.label)} · ${esc(lvl.cefr)}</span>
+                <span class="badge badge-neutral">${count} Soal</span>
+              </div>
+              <span class="badge badge-${lvl.id}">Terbaik ${best}%</span>
+            </div>
+            <div style="font-weight:800;font-size:1rem;margin-bottom:4px;">Tingkat ${esc(lvl.label)} — ${esc(lvl.subtitle)}</div>
+            <p style="margin:0 0 14px;font-size:0.84rem;color:var(--muted);">${esc(lvl.desc)}</p>
+            <button class="btn btn-full" style="background:${colorVar};color:#fff;" onclick="startLevelQuiz('${lvl.id}')">▶ Mulai Latihan Tingkat ${esc(lvl.label)}</button>
+          </div>
+        `;
+      }).join('');
+
+      const drillsHTML = TENSES.map(t => `
+        <button class="drill-card" onclick="startTenseDrill('${t.id}')">
+          <div class="row-between" style="margin-bottom:8px;">
+            <span class="badge badge-${t.category}">#${String(t.number).padStart(2, '0')} · ${esc(TIME_CATEGORIES.find(c => c.id === t.category).label)}</span>
+            <span style="color:${catColorVar(t.category)};font-weight:800;">→</span>
+          </div>
+          <div style="font-weight:700;font-size:0.9rem;margin-bottom:4px;">${esc(t.name)}</div>
+          <div style="font-size:0.76rem;color:var(--muted);">3 soal fokus · ${esc(levelMeta(t.level).label)}</div>
+        </button>
+      `).join('');
+
+      return `
+        <section class="hero-card" style="background:linear-gradient(130deg, #0F2036 0%, #1E3A5F 58%, #B45309 100%);">
+          <div class="hero-badge">🏆 ${appState.progress.totalQuizzes || 0} Sesi Latihan Selesai</div>
+          <h2 class="hero-title">Latihan Soal Interaktif</h2>
+          <p class="hero-desc">Pilihan Ganda, Susun Kalimat, &amp; Temukan Kesalahan lengkap dengan pembahasan detail dan audio pengucapan.</p>
+        </section>
+
+        <div>
+          <h3 class="section-title">Pilih Tingkatan Kemampuan</h3>
+          <p class="section-sub">Setiap tingkat dirancang bertahap sesuai standar CEFR (A1–C2).</p>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:14px;">${levelsHTML}</div>
+
+        <div class="card" style="background:var(--primary-container);border-color:color-mix(in srgb, var(--primary) 30%, transparent);">
+          <div class="row-between" style="flex-wrap:wrap;gap:12px;">
+            <div style="flex:1;min-width:190px;">
+              <strong style="color:var(--on-primary-container);font-size:1rem;">🔀 Tantangan Campuran</strong>
+              <div style="font-size:0.82rem;color:var(--on-primary-container);opacity:0.85;">12 soal acak Dasar–Mahir · Rekor: ${appState.progress.bestScores.mixed || 0}%</div>
+            </div>
+            <button class="btn btn-primary" onclick="startMixedQuiz()">Mainkan</button>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="section-title">⚡ Latihan Fokus per Tense</h3>
+          <p class="section-sub">Ingin mempertajam satu tense tertentu? Pilih langsung paket drill 3 soal di bawah ini.</p>
+          <div class="drill-scroll" style="margin-top:8px;">${drillsHTML}</div>
+        </div>
+      `;
+    }
+
+    function renderQuiz() {
+      const q = appState.quiz;
+      if (!q) return renderPracticeHub();
+
+      if (q.finished) {
+        const pct = Math.round((q.correctCount / q.questions.length) * 100);
+        const headline = pct >= 90 ? 'Luar Biasa! Penguasaan Sempurna' :
+                         pct >= 70 ? 'Kerja Bagus! Pemahamanmu Kuat' :
+                         pct >= 50 ? 'Cukup Baik! Terus Berlatih' : 'Awal yang Bagus! Yuk Ulas Materinya';
+        return `
+          <section class="card" style="text-align:center;">
+            <div style="font-size:3rem;">🏆</div>
+            <div style="font-family:var(--font-display);font-size:2.6rem;font-weight:800;color:var(--primary);">${pct}%</div>
+            <h2 style="margin:4px 0 14px;font-size:1.2rem;">${headline}</h2>
+            <div class="row" style="margin-bottom:16px;">
+              <div class="stat-pill" style="justify-content:center;text-align:center;">
+                <div><strong style="color:var(--success);font-size:1.15rem;">${q.correctCount}/${q.questions.length}</strong><small>Benar</small></div>
+              </div>
+              <div class="stat-pill" style="justify-content:center;text-align:center;">
+                <div><strong style="color:var(--gold);font-size:1.15rem;">${q.bestStreak}x</strong><small>Streak Terbaik</small></div>
+              </div>
+            </div>
+            <div class="grid-2">
+              <button class="btn btn-tonal" onclick="restartQuiz()">🔄 Ulangi</button>
+              <button class="btn btn-primary" onclick="goBack()">Selesai</button>
+            </div>
+          </section>
+
+          <h3 class="section-title">Ulasan Setiap Soal</h3>
+          ${q.records.map((rec, idx) => `
+            <div class="card" style="border-color:${rec.ok ? 'var(--success)' : 'var(--error)'};">
+              <div class="row-between" style="margin-bottom:6px;">
+                <strong style="font-size:0.84rem;color:${rec.ok ? 'var(--success)' : 'var(--error)'};">
+                  ${rec.ok ? '✅' : '❌'} Soal #${idx + 1} · ${esc(rec.question.tenseName)}
+                </strong>
+                <button class="speak-btn" onclick="speakText(${esc(JSON.stringify(rec.question.spoken))})" aria-label="Dengarkan">🔊</button>
+              </div>
+              <div style="font-weight:700;font-size:0.95rem;margin-bottom:4px;">${esc(rec.question.spoken)}</div>
+              ${!rec.ok ? `<div style="font-size:0.82rem;color:var(--error);margin-bottom:4px;">Jawabanmu: ${esc(rec.userAns)}</div>` : ''}
+              <p style="margin:0;font-size:0.82rem;color:var(--muted);">${esc(rec.question.exp)}</p>
+            </div>
+          `).join('')}
+        `;
+      }
+
+      const cur = q.questions[q.index];
+      const pct = Math.round(((q.index + (q.checked ? 1 : 0)) / q.questions.length) * 100);
+      const typeLabel = cur.type === 'mc' ? 'Pilihan Ganda' : cur.type === 'spot' ? 'Temukan Kesalahan' : 'Susun Kalimat';
+      const lvl = levelMeta(cur.level);
+
+      let inputHTML = '';
+      if (cur.type === 'mc') {
+        const letters = ['A', 'B', 'C', 'D'];
+        inputHTML = `<div style="display:flex;flex-direction:column;gap:10px;">` +
+          cur.options.map((opt, idx) => {
+            const isSel = q.selected === opt;
+            const isRight = opt.toLowerCase() === cur.ans.toLowerCase();
+            let cls = 'quiz-option';
+            if (q.checked && isRight) cls += ' correct';
+            else if (q.checked && isSel && !isRight) cls += ' wrong';
+            else if (isSel) cls += ' selected';
+            return `
+              <button class="${cls}" ${q.checked ? 'disabled' : ''} onclick="selectQuizOption(${idx})">
+                <span class="opt-letter">${letters[idx]}</span>
+                <span style="flex:1;">${esc(opt)}</span>
+                ${q.checked && isRight ? '<span>✅</span>' : (q.checked && isSel ? '<span>❌</span>' : '')}
+              </button>
+            `;
+          }).join('') + `</div>`;
+      } else if (cur.type === 'spot') {
+        inputHTML = `
+          <div>
+            <div style="font-size:0.84rem;font-weight:700;color:var(--muted);margin-bottom:10px;">Pilih potongan kata/frasa yang SALAH:</div>
+            <div class="spot-wrap">
+              ${cur.options.map((opt, idx) => {
+                const isSel = q.selected === opt;
+                const isRight = opt.toLowerCase() === cur.ans.toLowerCase();
+                let cls = 'spot-chip';
+                if (q.checked && isRight) cls += ' correct';
+                else if (q.checked && isSel && !isRight) cls += ' wrong';
+                else if (isSel) cls += ' selected';
+                return `<button class="${cls}" ${q.checked ? 'disabled' : ''} onclick="selectQuizOption(${idx})">${esc(opt)}</button>`;
+              }).join('')}
+            </div>
+          </div>
+        `;
+      } else {
+        const remaining = [...cur.bank];
+        q.assembled.forEach(w => {
+          const idx = remaining.indexOf(w);
+          if (idx >= 0) remaining.splice(idx, 1);
+        });
+        const zoneCls = 'builder-zone' + (q.checked ? (q.isCorrect ? ' correct' : ' wrong') : '');
+        inputHTML = `
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div class="row-between">
+              <span style="font-size:0.84rem;font-weight:700;color:var(--muted);">Susunan Kalimatmu:</span>
+              ${q.assembled.length && !q.checked ? '<button style="color:var(--primary);font-weight:700;font-size:0.82rem;" onclick="clearBuilderWords()">⌫ Bersihkan</button>' : ''}
+            </div>
+            <div class="${zoneCls}">
+              ${q.assembled.length
+                ? q.assembled.map((w, idx) => `<button class="word-token placed" ${q.checked ? 'disabled' : ''} onclick="removeBuilderWord(${idx})">${esc(w)}</button>`).join('')
+                : '<span style="font-size:0.86rem;color:var(--muted);">Ketuk kata-kata di bawah secara berurutan...</span>'}
+            </div>
+            <div style="font-size:0.8rem;font-weight:700;color:var(--muted);">Bank Kata (Ketuk untuk menambahkan):</div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;">
+              ${remaining.map((w, idx) => `<button class="word-token" ${q.checked ? 'disabled' : ''} onclick="addBuilderWord(${idx})">${esc(w)}</button>`).join('')}
+            </div>
+          </div>
+        `;
+      }
+
+      const canCheck = cur.type === 'builder' ? q.assembled.length > 0 : !!q.selected;
+      const isLast = q.index + 1 >= q.questions.length;
+
+      return `
+        <div>
+          <div class="row-between" style="font-size:0.8rem;color:var(--muted);font-weight:700;margin-bottom:6px;">
+            <span>Soal ${q.index + 1} dari ${q.questions.length}</span>
+            ${q.streak > 0 ? `<span style="color:var(--gold);">🔥 Streak ${q.streak}x</span>` : ''}
+          </div>
+          <div class="progress-track" style="margin:0;"><div class="progress-fill" style="width:${pct}%"></div></div>
+        </div>
+
+        <section class="card">
+          <div class="row" style="gap:6px;margin-bottom:10px;">
+            <span class="badge" style="background:var(--primary-container);color:var(--on-primary-container);">${typeLabel}</span>
+            <span class="badge badge-${cur.level}">${esc(lvl.label)}</span>
+          </div>
+          <p style="margin:0 0 10px;font-size:0.84rem;color:var(--muted);">${esc(cur.inst)}</p>
+          <div style="font-family:var(--font-display);font-size:1.2rem;font-weight:700;line-height:1.4;">${esc(cur.prompt)}</div>
+        </section>
+
+        ${inputHTML}
+
+        ${q.checked ? `
+          <section class="feedback-card ${q.isCorrect ? 'ok' : 'bad'}">
+            <div class="row-between" style="margin-bottom:8px;">
+              <strong style="font-size:1rem;color:${q.isCorrect ? 'var(--success)' : 'var(--error)'};">
+                ${q.isCorrect ? '✅ Jawaban Tepat!' : '❌ Belum Tepat'}
+              </strong>
+              <button class="speak-btn" onclick="speakText(${esc(JSON.stringify(cur.spoken))})" aria-label="Dengarkan kalimat benar">🔊</button>
+            </div>
+            ${!q.isCorrect ? `<div style="font-weight:800;font-size:0.92rem;margin-bottom:6px;">Jawaban benar: ${esc(cur.ans)}</div>` : ''}
+            <p style="margin:0 0 10px;font-size:0.88rem;">${esc(cur.exp)}</p>
+            <div class="formula-box" style="background:var(--card);">
+              <div style="font-family:var(--font-body);font-size:0.72rem;color:var(--muted);margin-bottom:2px;">Kunci Rumus · ${esc(cur.tenseName)}</div>
+              <div style="color:var(--primary);">${esc(cur.hint)}</div>
+            </div>
+          </section>
+        ` : ''}
+
+        <div style="margin-top:4px;">
+          ${!q.checked
+            ? `<button class="btn btn-primary btn-full" ${canCheck ? '' : 'disabled'} onclick="checkQuizAnswer()">Periksa Jawaban</button>`
+            : `<button class="btn ${q.isCorrect ? 'btn-success' : 'btn-primary'} btn-full" onclick="nextQuizQuestion()">${isLast ? 'Lihat Hasil' : 'Soal Berikutnya →'}</button>`}
+        </div>
+      `;
+    }
+
+    function renderReference() {
+      const tab = appState.refTab;
+      const savedList = TENSES.filter(t => appState.progress.bookmarks.includes(t.id));
+      let bodyHTML = '';
+
+      if (tab === 0) {
+        bodyHTML = TIME_CATEGORIES.map(c => {
+          const list = TENSES.filter(t => t.category === c.id);
+          return `
+            <div class="card">
+              <div class="row" style="margin-bottom:12px;">
+                <span class="badge badge-${c.id}" style="font-size:0.82rem;padding:5px 11px;">${esc(c.label)}</span>
+                <span style="font-size:0.82rem;color:var(--muted);">${esc(c.sub)}</span>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                ${list.map(t => `
+                  <button onclick="openTense('${t.id}')" style="text-align:left;background:var(--surface);border-radius:14px;padding:12px;width:100%;">
+                    <div class="row-between" style="margin-bottom:4px;">
+                      <strong style="font-size:0.9rem;">${t.number}. ${esc(t.name)}</strong>
+                      <span style="font-size:0.74rem;font-weight:700;color:${catColorVar(c.id)};">${esc(t.aspect)}</span>
+                    </div>
+                    <div style="font-family:var(--font-mono);font-size:0.82rem;font-weight:600;color:${catColorVar(c.id)};">${esc(t.formula.vp)}</div>
+                  </button>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        }).join('');
+      } else if (tab === 1) {
+        bodyHTML = COMPARISONS.map(cmp => `
+          <div class="card" style="display:flex;flex-direction:column;gap:10px;">
+            <strong style="font-size:1.02rem;">⇄ ${esc(cmp.title)}</strong>
+            <p style="margin:0;font-size:0.86rem;color:var(--muted);">${esc(cmp.diff)}</p>
+            <div class="row-between" style="background:var(--surface);padding:10px 12px;border-radius:14px;">
+              <div>
+                <div style="font-size:0.72rem;font-weight:800;color:var(--present);">${esc(cmp.a)}</div>
+                <div style="font-weight:700;font-size:0.92rem;">${esc(cmp.exA)}</div>
+                <div style="font-size:0.78rem;color:var(--muted);">${esc(cmp.mA)}</div>
+              </div>
+              <button class="speak-btn" onclick="speakText(${esc(JSON.stringify(cmp.exA))})" aria-label="Dengarkan">🔊</button>
+            </div>
+            <div class="row-between" style="background:var(--surface);padding:10px 12px;border-radius:14px;">
+              <div>
+                <div style="font-size:0.72rem;font-weight:800;color:var(--past);">${esc(cmp.b)}</div>
+                <div style="font-weight:700;font-size:0.92rem;">${esc(cmp.exB)}</div>
+                <div style="font-size:0.78rem;color:var(--muted);">${esc(cmp.mB)}</div>
+              </div>
+              <button class="speak-btn" onclick="speakText(${esc(JSON.stringify(cmp.exB))})" aria-label="Dengarkan">🔊</button>
+            </div>
+            <div class="tip-card" style="padding:10px 12px;font-size:0.82rem;">💡 ${esc(cmp.trick)}</div>
+          </div>
+        `).join('');
+      } else {
+        bodyHTML = savedList.length ? savedList.map(renderTenseCard).join('') : `
+          <div class="empty-state card">
+            <div style="font-size:2.4rem;">☆</div>
+            <h3 style="margin:8px 0 4px;color:var(--ink);">Belum Ada Tense Tersimpan</h3>
+            <p style="margin:0;font-size:0.86rem;">Ketuk ikon bintang pada materi tense mana pun untuk menyimpannya agar mudah diulas kembali.</p>
+          </div>
+        `;
+      }
+
+      return `
+        <div>
+          <h2 class="section-title" style="font-size:1.4rem;">Peta &amp; Ringkasan Tenses</h2>
+          <p class="section-sub">Ringkasan cepat rumus 16 tenses, perbandingan tense yang mirip, dan daftar simpanan.</p>
+        </div>
+        <div class="tabs-bar">
+          <button class="seg-tab ${tab === 0 ? 'active' : ''}" onclick="appState.refTab=0;render();">Matriks 16</button>
+          <button class="seg-tab ${tab === 1 ? 'active' : ''}" onclick="appState.refTab=1;render();">Perbandingan</button>
+          <button class="seg-tab ${tab === 2 ? 'active' : ''}" onclick="appState.refTab=2;render();">Favorit (${savedList.length})</button>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px;">${bodyHTML}</div>
+      `;
+    }
+
+    function updateTopBarAndNav() {
+      const isSub = appState.route === 'detail' || appState.route === 'quiz';
+      document.getElementById('bottomNav').classList.toggle('hidden', isSub);
+
+      const brandMini = document.getElementById('topBarLeft');
+      const customTitle = document.getElementById('topBarCustomTitle');
+
+      if (isSub) {
+        brandMini.style.display = 'none';
+        customTitle.style.display = 'flex';
+        if (appState.route === 'detail') {
+          const t = TENSES.find(x => x.id === appState.detailTenseId) || TENSES[0];
+          customTitle.innerHTML = `
+            <button class="icon-btn" onclick="goBack()" aria-label="Kembali">←</button>
+            <div style="min-width:0;">
+              <div style="font-size:0.7rem;font-weight:800;color:${catColorVar(t.category)};">Materi #${String(t.number).padStart(2, '0')}</div>
+              <div style="font-weight:800;font-size:0.96rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(t.name)}</div>
+            </div>
+          `;
+        } else {
+          customTitle.innerHTML = `
+            <button class="icon-btn" onclick="goBack()" aria-label="Tutup kuis">✕</button>
+            <div style="min-width:0;">
+              <div style="font-weight:800;font-size:0.94rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(appState.quiz ? appState.quiz.title : 'Latihan')}</div>
+            </div>
+          `;
+        }
+      } else {
+        brandMini.style.display = '';
+        customTitle.style.display = 'none';
+      }
+
+      document.querySelectorAll('[data-route]').forEach(el => {
+        el.classList.toggle('active', el.getAttribute('data-route') === appState.route);
+      });
+    }
+
+    function render() {
+      updateTopBarAndNav();
+      const root = document.getElementById('appContent');
+      if (appState.route === 'home') root.innerHTML = renderHome();
+      else if (appState.route === 'learn') root.innerHTML = renderLearn();
+      else if (appState.route === 'practice') root.innerHTML = renderPracticeHub();
+      else if (appState.route === 'reference') root.innerHTML = renderReference();
+      else if (appState.route === 'detail') root.innerHTML = renderDetail();
+      else if (appState.route === 'quiz') root.innerHTML = renderQuiz();
+    }
+
+    // =========================================================================
+    // 6. PWA INSTALL PROMPT, OFFLINE STATUS & SERVICE WORKER REGISTRATION
+    // =========================================================================
+    let deferredInstallPrompt = null;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredInstallPrompt = e;
+      document.getElementById('topInstallBtn').classList.add('visible');
+      document.getElementById('railInstallBtn').style.display = 'inline-flex';
+    });
+
+    window.addEventListener('appinstalled', () => {
+      deferredInstallPrompt = null;
+      document.getElementById('topInstallBtn').classList.remove('visible');
+      document.getElementById('railInstallBtn').style.display = 'none';
+    });
+
+    async function triggerInstall() {
+      if (!deferredInstallPrompt) return;
+      deferredInstallPrompt.prompt();
+      await deferredInstallPrompt.userChoice;
+      deferredInstallPrompt = null;
+      document.getElementById('topInstallBtn').classList.remove('visible');
+      document.getElementById('railInstallBtn').style.display = 'none';
+    }
+
+    function updateNetworkBadge() {
+      const badge = document.getElementById('networkBadge');
+      if (!badge) return;
+      if (navigator.onLine) {
+        badge.textContent = 'Siap Offline';
+        badge.classList.remove('offline');
+      } else {
+        badge.textContent = 'Mode Offline';
+        badge.classList.add('offline');
+      }
+    }
+
+    window.addEventListener('online', updateNetworkBadge);
+    window.addEventListener('offline', updateNetworkBadge);
+
+    if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
+      });
+    }
+
+    applyTheme();
+    updateNetworkBadge();
+    render();
+  </script>
+</body>
+</html>
